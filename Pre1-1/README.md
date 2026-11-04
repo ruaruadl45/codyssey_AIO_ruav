@@ -25,14 +25,12 @@
 | 구분        | 사용 환경              |
 | --------- | ------------------ |
 | 운영체제      | Windows 11 Home    |
-| Linux 환경  | WSL2               |
-| Linux 배포판 | Ubuntu             |
-| Linux 사용자 | ruav               |
-| 작업 환경     | Ubuntu 터미널         |
-| 컨테이너 관리   | Docker             |
+| WSL2 OS  | Ubuntu 24.04.5 LTS (Noble Numbat) |
+| 리눅스 커널 | 6.18.54.1 (x86_64 아키텍처) |
+| 기본 셸     | Bash         |
+| 컨테이너 | Docker 29.9.2 (Docker Desktop 연동) |
 | 코드 편집기    | Visual Studio Code |
-| 버전 관리     | Git                |
-| 원격 저장소    | GitHub             |
+| 버전 관리/저장소     | Git / GitHub              |
 
 > ⚠️ 환경 주의
 > - 출력에 보이는 `/Users/ruav/codyssey_AIO_ruav`는 작성자 PC 경로. 각자 저장소를 내려받은 위치로 바꿔 읽기.
@@ -78,14 +76,13 @@ Windows 11
 | 구분        | 내용                                                                                                 |
 | --------- | -------------------------------------------------------------------------------------------------- |
 | 저장소 이름    | `codyssey_AIO_ruav`                                                                                |
-| GitHub 계정 | `ruaruadl45`                                                                                       |
 | 저장소 주소    | [https://github.com/ruaruadl45/codyssey_AIO_ruav](https://github.com/ruaruadl45/codyssey_AIO_ruav) |
-| 주요 관리 파일  | README.md, Dockerfile, app/, docs/                                                                 |
+| 주요 관리 파일  | README.md, Dockerfile, app/, docs/evidence/                                                            |
 
 ### 2-2. 프로젝트 디렉터리 구조
 
 ```text
-codyssey_AIO_ruav/
+codyssey_AIO_ruav/Pre1-1
 │
 ├── README.md
 │
@@ -133,8 +130,6 @@ codyssey_AIO_ruav/
 | 8  | Bind Mount 및 Volume    | `docker volume`, `docker inspect` | [4-6](#4-6-바인드-마운트-및-볼륨)         | [스크린샷 경로 입력] |
 | 9  | Git 및 GitHub 연동        | `git status`, `git push`          | [4-7](#4-7-git-및-github-연동)      | [스크린샷 경로 입력] |
 
-※ 표의 링크는 상세 수행 내용으로 이동하기 위한 내부 링크입니다. 실제 스크린샷을 추가한 뒤 증거 자료 경로를 연결합니다.
-
 ---
 
 ## 4. 수행 내용 및 검증
@@ -144,9 +139,9 @@ codyssey_AIO_ruav/
 1. 수행 목적
 2. 실행 명령어
 3. 실행 결과
-4. 검증 방법
-5. 확인 내용
-6. 증거 자료
+4. 확인 내용
+
+---
 
 ### 4-1. Linux CLI 및 파일 권한
 
@@ -154,104 +149,131 @@ codyssey_AIO_ruav/
 
 **수행 목적**
 
-Linux 터미널에서 현재 위치를 확인하고 파일과 디렉터리를 생성, 조회, 수정 및 관리하는 기본 명령어를 익힙니다.
+Linux 터미널에서 현재 위치를 확인하고 파일과 디렉터리를 생성, 조회, 수정 및 관리하는 기본 명령어를 익힘.
 
-**주요 명령어**
-
-| 명령어      | 기능                  |
-| -------- | ------------------- |
-| `pwd`    | 현재 작업 디렉터리 확인       |
-| `ls`     | 파일 및 디렉터리 목록 확인     |
-| `ls -la` | 숨김 파일을 포함한 상세 목록 확인 |
-| `mkdir`  | 디렉터리 생성             |
-| `cd`     | 디렉터리 이동             |
-| `touch`  | 파일 생성               |
-| `echo`   | 문자열 출력              |
-| `cat`    | 파일 내용 확인            |
-| `cp`     | 파일 복사               |
-| `mv`     | 파일 이동 및 이름 변경       |
-| `rm`     | 파일 삭제               |
-| `rmdir`  | 빈 디렉터리 삭제           |
-
-**실행 예시**
+**실행 명령어**
 
 ```bash
-# 현재 위치 확인
+whoami
 pwd
+ls -la                        # 숨김 파일 포함 상세 목록
 
-# 파일 및 디렉터리 확인
+mkdir practice                # 디렉터리 생성
+cd practice                   # 이동
+touch note.txt                # 빈 파일 생성
+echo "Hello Linux" > note.txt # 내용 쓰기
+cat note.txt                  # 내용 확인
+
+cp note.txt note_copy.txt     # 복사
+mv note_copy.txt renamed.txt  # 이동 / 이름 변경
+mkdir tmpdir
 ls -la
 
-# 디렉터리 생성
-mkdir practice
-
-# 생성한 디렉터리로 이동
-cd practice
-
-# 파일 생성
-touch note.txt
-
-# 파일에 내용 입력
-echo "Hello Linux" > note.txt
-
-# 파일 내용 확인
-cat note.txt
+rm renamed.txt                # 파일 삭제
+rmdir tmpdir                  # 빈 디렉터리 삭제
+ls -la
 ```
 
-**검증 방법**
+**실행 결과**
 
-```bash
-# 현재 위치 확인
-pwd
-
-# 파일 존재 여부 확인
-ls -l note.txt
-
-# 파일 내용 확인
-cat note.txt
+```text
+ruav@DESKTOP-JCSRKLA:~$ whoami
+ruav
+ruav@DESKTOP-JCSRKLA:~$ pwd
+/home/ruav
+ruav@DESKTOP-JCSRKLA:~$ mkdir practice
+ruav@DESKTOP-JCSRKLA:~$ cd practice
+ruav@DESKTOP-JCSRKLA:~/practice$ touch note.txt
+ruav@DESKTOP-JCSRKLA:~/practice$ echo "Hello Linux" > note.txt
+ruav@DESKTOP-JCSRKLA:~/practice$ cat note.txt
+Hello Linux
+ruav@DESKTOP-JCSRKLA:~/practice$ cp note.txt note_copy.txt
+ruav@DESKTOP-JCSRKLA:~/practice$ mv note_copy.txt renamed.txt
+ruav@DESKTOP-JCSRKLA:~/practice$ mkdir tmpdir
+ruav@DESKTOP-JCSRKLA:~/practice$ ls -la
+total 20
+drwxr-xr-x 3 ruav ruav 4096 Nov  4 15:59 .
+drwxr-x--- 8 ruav ruav 4096 Nov  4 15:57 ..
+-rw-r--r-- 1 ruav ruav   12 Nov  4 15:58 note.txt
+-rw-r--r-- 1 ruav ruav   12 Nov  4 15:58 renamed.txt
+drwxr-xr-x 2 ruav ruav 4096 Nov  4 15:59 tmpdir
+ruav@DESKTOP-JCSRKLA:~/practice$ rm renamed.txt
+ruav@DESKTOP-JCSRKLA:~/practice$ rmdir tmpdir
+ruav@DESKTOP-JCSRKLA:~/practice$ ls -la
+total 12
+drwxr-xr-x 2 ruav ruav 4096 Nov  4 15:59 .
+drwxr-x--- 8 ruav ruav 4096 Nov  4 15:57 ..
+-rw-r--r-- 1 ruav ruav   12 Nov  4 15:58 note.txt
 ```
+
+![터미널 기본 조작](docs/evidence/01_terminal.png)
 
 **확인 내용**
 
-- `pwd`는 현재 작업 중인 디렉터리의 경로를 보여줍니다.
-- `ls`는 현재 디렉터리에 존재하는 파일과 폴더를 보여줍니다.
-- `mkdir`는 새로운 디렉터리를 생성합니다.
-- `touch`는 새로운 파일을 생성합니다.
-- `cat`은 파일 내부의 내용을 확인합니다.
+- 파일/디렉터리의 생성, 복사, 이름 변경, 삭제가 `ls -la` 목록에 그대로 반영되었다.
+- `ls -la`에서 `.`으로 시작하는 숨김 파일을 확인했다.
 
 #### 4-1-2. 절대 경로와 상대 경로
 
 **수행 목적**
 
-파일이나 디렉터리를 지정할 때 사용하는 경로의 차이를 이해합니다.
+같은 파일을 절대 경로와 상대 경로로 각각 지정해 보고, 현재 위치에 따라 결과가 달라지는 차이를 확인.
 
-| 구분    | 의미                  | 예시                             |
-| ----- | ------------------- | ------------------------------ |
-| 절대 경로 | 최상위 위치부터 시작하는 전체 경로 | `/home/ruav/practice/note.txt` |
-| 상대 경로 | 현재 위치를 기준으로 지정하는 경로 | `practice/note.txt`            |
-| `.`   | 현재 디렉터리             | `./note.txt`                   |
-| `..`  | 상위 디렉터리             | `cd ..`                        |
-| `~`   | 현재 사용자의 홈 디렉터리      | `/home/ruav`                   |
-
-**검증 명령어**
+**실행 명령어** (4-1-1에 이어 `practice` 디렉터리에서 시작)
 
 ```bash
-pwd
+pwd                                 # /home/ruav/practice
+cat note.txt                        # 상대 경로 (현재 위치 기준)
+cat /home/ruav/practice/note.txt    # 절대 경로 (같은 파일)
+
 cd ..
 pwd
+cat practice/note.txt               # 상대 경로 (위치가 바뀌어 경로도 바뀜)
+cat note.txt                        # 현재 위치에 파일이 없어 실패 예상
+
 cd ~
-pwd
+pwd                                 # ~ = /home/ruav
 ```
+
+**실행 결과**
+
+```text
+ruav@DESKTOP-JCSRKLA:~/practice$ pwd
+/home/ruav/practice
+ruav@DESKTOP-JCSRKLA:~/practice$ cat note.txt
+Hello Linux
+ruav@DESKTOP-JCSRKLA:~/practice$ cat /home/ruav/practice/note.txt
+Hello Linux
+ruav@DESKTOP-JCSRKLA:~/practice$ cd ..
+ruav@DESKTOP-JCSRKLA:~$ pwd
+/home/ruav
+ruav@DESKTOP-JCSRKLA:~$ cat practice/note.txt
+Hello Linux
+ruav@DESKTOP-JCSRKLA:~$ cat note.txt
+cat: note.txt: No such file or directory
+ruav@DESKTOP-JCSRKLA:~$ cd ~
+ruav@DESKTOP-JCSRKLA:~$ pwd
+/home/ruav
+```
+![터미널 기본 조작](docs/evidence/01_terminal2.png)
 
 **확인 내용**
 
-상대 경로는 현재 위치에 따라 실제 접근하는 대상이 달라질 수 있으며, 절대 경로는 현재 위치와 관계없이 동일한 경로를 지정합니다.
+- 절대 경로는 현재 위치와 관계없이 같은 파일을 가리키고, 상대 경로는 현재 위치에 따라 가리키는 대상이 달라진다.
+- `.`은 현재 디렉터리, `..`은 상위 디렉터리, `~`는 홈 디렉터리를 뜻한다.
+- 경로를 선택하는 기준은 [5. 핵심 개념 정리](#5-핵심-개념-정리)에서 설명한다.
 
 #### 4-1-3. Linux 파일 및 디렉터리 권한
 
 **수행 목적**
 
-Linux에서 파일과 디렉터리에 설정되는 읽기, 쓰기, 실행 권한을 이해하고 `chmod` 명령어를 이용해 권한을 변경합니다.
+`chmod`로 파일과 디렉터리의 권한을 바꾸고, 변경 전/후를 비교해 r/w/x와 755, 644 표기를 이해.
+
+**권한 설정 대상**
+
+- 소유자(User)
+- 그룹(Group)
+- 기타 사용자(Other)
 
 **권한의 종류**
 
@@ -261,11 +283,13 @@ Linux에서 파일과 디렉터리에 설정되는 읽기, 쓰기, 실행 권한
 | w  | 쓰기(Write)   | 2  |
 | x  | 실행(Execute) | 1  |
 
-**권한 설정 대상**
+**권한 숫자의 의미**
 
-- 소유자(User)
-- 그룹(Group)
-- 기타 사용자(Other)
+| 권한  | 소유자        | 그룹     | 기타 사용자 |
+| --- | ---------- | ------ | ------ |
+| 755 | 읽기, 쓰기, 실행 | 읽기, 실행 | 읽기, 실행 |
+| 644 | 읽기, 쓰기     | 읽기     | 읽기     |
+| 700 | 읽기, 쓰기, 실행 | 권한 없음  | 권한 없음  |
 
 **권한 설정 예시**
 
@@ -287,39 +311,22 @@ ls -l note.txt
 
 # 디렉터리 권한 확인
 ls -ld practice
+``` ???? 
+
+**실행 결과**
+
+```text
+[실제 출력 입력]
 ```
 
-**권한 숫자의 의미**
-
-| 권한  | 소유자        | 그룹     | 기타 사용자 |
-| --- | ---------- | ------ | ------ |
-| 755 | 읽기, 쓰기, 실행 | 읽기, 실행 | 읽기, 실행 |
-| 644 | 읽기, 쓰기     | 읽기     | 읽기     |
-| 700 | 읽기, 쓰기, 실행 | 권한 없음  | 권한 없음  |
-
-**검증 방법**
-
-```bash
-ls -l note.txt
-ls -ld practice
-```
+![파일 권한 변경 전/후](docs/evidence/02_permission_file.png)
+![디렉터리 권한 변경 전/후](docs/evidence/02_permission_dir.png)
 
 **확인 내용**
 
-`chmod`는 파일이나 디렉터리의 권한을 변경하는 명령어입니다.
-
-`ls -l`은 파일의 권한을 확인하며, `ls -ld`는 디렉터리 자체의 권한을 확인합니다.
-
-#### 4-1-4. 실행 결과 및 증거 자료
-
-- Linux 사용자 확인: `whoami` → `ruav`
-- 홈 디렉터리 확인: `pwd` → `/home/ruav`
-- Ubuntu 홈 디렉터리에서 기본 파일 목록 확인
-
-**증거 자료**
-
-- `[실제 CLI 실습 스크린샷 경로 입력]`
-- `[파일 권한 확인 스크린샷 경로 입력]`
+- `chmod`는 파일이나 디렉터리의 권한을 변경하는 명령어로 `ls -l`은 파일의 권한을 확인하며, `ls -ld`는 디렉터리 자체의 권한을 확인합니다.
+- `r=4`, `w=2`, `x=1`을 소유자/그룹/기타별로 더해 3자리로 표기한다. `644`는 `rw-r--r--`, `755`는 `rwxr-xr-x`, `700`은 `rwx------`이다.
+- 실행 권한(`x`)이 없는 스크립트는 실행되지 않고, 디렉터리는 `x`가 없으면 `cd`로 들어갈 수 없다.
 
 ---
 
@@ -329,7 +336,7 @@ ls -ld practice
 
 **수행 목적**
 
-Docker가 정상적으로 설치되어 있는지 확인하고 Docker 실행 환경의 상태를 점검합니다.
+Docker가 정상적으로 설치되어 있는지 확인하고 Docker 실행 환경의 상태를 점검.
 
 **실행 명령어**
 
@@ -340,108 +347,131 @@ docker --version
 # Docker 실행 환경 정보 확인
 docker info
 ```
+**실행 결과**
 
-**검증 방법**
+```text
+ruav@DESKTOP-JCSRKLA:~$ docker --version
+Docker version 29.9.2, build a82e528
+ruav@DESKTOP-JCSRKLA:~$ docker info
+Client:
+ Version:    29.9.2
+ Context:    default
+ Debug Mode: false
+ Plugins:
+ .. 생략 .. 
+ Server:
+ Containers: 5
+  Running: 2
+  Paused: 0
+  Stopped: 3
+ Images: 3
+ Server Version: 29.9.2
+ .. 생략 .. 
+```
 
-Docker 버전과 시스템 정보를 확인하여 Docker 명령어를 실행할 수 있는 상태인지 확인합니다.
+![Docker 점검](docs/evidence/03_docker.png)
 
 **확인 내용**
 
-- `docker --version`: 설치된 Docker 버전 확인
-- `docker info`: Docker 엔진 및 실행 환경 정보 확인
+- `docker --version`으로 설치된 버전을 확인했다.
+- `docker info`에 서버(데몬) 정보가 출력되므로 Docker 엔진이 동작 중이다.
+
+#### 4-2-2. Docker 이미지·컨테이너 목록, 로그, 자원 확인
+
+**수행 목적**
+
+이미지와 컨테이너의 상태를 확인하고, 실행 중인 컨테이너의 로그와 자원 사용량을 확인.
+
+**실행 명령어**
+
+```bash
+docker images                 # 이미지 목록
+docker ps                     # 실행 중인 컨테이너
+docker ps -a                  # 종료된 컨테이너 포함 전체
+
+docker logs confident_ganguly # 로그 확인
+docker stats --no-stream      # CPU/메모리 사용량
+```
 
 **실행 결과**
 
 ```text
-[실제 docker --version 결과 입력]
+ruav@DESKTOP-JCSRKLA:~$ docker images
+                                                                       i Info →   U  In Use
+IMAGE                 ID             DISK USAGE   CONTENT SIZE   EXTRA
+hello-world:latest    c567b231f656       25.9kB         9.49kB    U
+my-custom-nginx:1.0   ee9343c65b3c       93.6MB         26.3MB    U
+ubuntu:latest         6a06111c3b0a        163MB         45.9MB    U
+ruav@DESKTOP-JCSRKLA:~$ docker ps
+CONTAINER ID   IMAGE                 COMMAND                  CREATED       STATUS       PORTS                                     NAMES
+9fd3afcb538a   my-custom-nginx:1.0   "/docker-entrypoint.…"   3 hours ago   Up 3 hours   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   web-8080
+dd00c8013b01   ubuntu                "bash"                   3 hours ago   Up 3 hours                                             ubuntu-test
+ruav@DESKTOP-JCSRKLA:~$ docker ps -a
+CONTAINER ID   IMAGE                 COMMAND                  CREATED        STATUS                    PORTS                                     NAMES
+9fd3afcb538a   my-custom-nginx:1.0   "/docker-entrypoint.…"   3 hours ago    Up 3 hours                0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   web-8080
+dd00c8013b01   ubuntu                "bash"                   3 hours ago    Up 3 hours                                                          ubuntu-test
+ef9de4af58b5   hello-world           "/hello"                 3 hours ago    Exited (0) 3 hours ago                                              confident_ganguly
+.. 생략 .. 
+ruav@DESKTOP-JCSRKLA:~$ docker logs confident_ganguly
 
-[실제 docker info 결과 중 주요 항목 입력]
-```
-
-#### 4-2-2. Docker 이미지 및 컨테이너 확인
-
-**수행 목적**
-
-Docker에 저장된 이미지와 현재 실행 중이거나 종료된 컨테이너를 확인합니다.
-
-**실행 명령어**
-
-```bash
-# 이미지 목록 확인
-docker images
-
-# 실행 중인 컨테이너 확인
-docker ps
-
-# 전체 컨테이너 확인
-docker ps -a
-```
-
-**검증 방법**
-
-이미지 목록과 컨테이너 목록을 확인하여 생성된 이미지 및 컨테이너의 상태를 확인합니다.
-
-#### 4-2-3. 컨테이너 로그 및 자원 사용량 확인
-
-**실행 명령어**
-
-```bash
-# 컨테이너 로그 확인
-docker logs 컨테이너이름
-
-# 컨테이너 자원 사용량 확인
-docker stats --no-stream
-```
-
-※ `컨테이너이름`은 실제 생성한 컨테이너 이름으로 변경합니다.
-
-**확인 내용**
-
-- `docker logs`: 컨테이너에서 발생한 로그 확인
-- `docker stats`: 컨테이너의 CPU, 메모리 등 자원 사용량 확인
-
-#### 4-2-4. Docker 컨테이너 및 이미지 정리
-
-**수행 목적**
-
-실습 과정에서 생성한 컨테이너와 이미지를 정리하는 방법을 익힙니다.
-
-**실행 명령어**
-
-```bash
-# 컨테이너 중지
-docker stop 컨테이너이름
-
-# 컨테이너 삭제
-docker rm 컨테이너이름
-
-# 이미지 삭제
-docker rmi 이미지이름
-```
-
-**검증 방법**
-
-```bash
-# 전체 컨테이너 확인
-docker ps -a
-
-# 이미지 목록 확인
-docker images
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+.. 생략 .. 
+ruav@DESKTOP-JCSRKLA:~$ docker stats --no-stream
+CONTAINER ID   NAME          CPU %     MEM USAGE / LIMIT     MEM %     NET I/O           BLOCK I/O        PIDS
+9fd3afcb538a   web-8080      0.00%     12.87MiB / 7.601GiB   0.17%     4.08kB / 3.85kB   0B / 12.3kB      17
+dd00c8013b01   ubuntu-test   0.00%     10.64MiB / 7.601GiB   0.14%     1.34kB / 126B     20.8MB / 4.1kB   1
 ```
 
 **확인 내용**
 
-- 컨테이너 삭제 전에 실행 중인 컨테이너는 중지해야 합니다.
-- `docker rm`은 컨테이너를 삭제합니다.
-- `docker rmi`는 이미지를 삭제합니다.
-- 컨테이너 삭제와 이미지 삭제는 서로 다른 작업입니다.
+- `docker ps`는 실행 중인 컨테이너만, `docker ps -a`는 `Exited` 상태까지 보여 준다.
+- `docker logs`에서 웹 서버 접속 기록을, `docker stats`에서 컨테이너별 자원 사용량을 확인했다.
 
-※ 실제 사용 중인 컨테이너나 이미지가 아닌지 확인한 후 삭제합니다.
+#### 4-2-3. 컨테이너 및 이미지 정리
 
-**증거 자료**
+**수행 목적**
 
-- `[Docker 상태 확인 스크린샷 경로 입력]`
-- `[Docker 컨테이너 및 이미지 관리 스크린샷 경로 입력]`
+실습 과정에서 생성한 컨테이너와 이미지를 정리하는 방법을 익힘.
+
+**실행 명령어**
+
+```bash
+docker ps -a                                   # 정리 전
+docker stop web-8080 ubuntu-test               # 실행 중인 컨테이너 중지
+docker rm web-8080 ubuntu-test confident_ganguly mybox pedantic_bell  # 모든 컨테이너 삭제
+docker rm $(docker ps -aq --filter ancestor=hello-world) 2>/dev/null || true # (참고용 안전 삭제)
+docker rmi hello-world my-custom-nginx:1.0     # 불필요한 이미지 삭제
+docker volume prune -f                         # 사용하지 않는 볼륨 정리 (선택)
+docker ps -a && docker images                  # 정리 후
+```
+
+※ 실제로 만든 이름만 지웁니다. `web-8080`과 `my-custom-nginx:1.0`은 재현 검증을 위해 남겨 둡니다.
+
+**실행 결과**
+
+```text
+ruav@DESKTOP-JCSRKLA:~$ docker ps -a
+CONTAINER ID   IMAGE                 COMMAND                  CREATED        STATUS                     PORTS     NAMES
+9fd3afcb538a   my-custom-nginx:1.0   "/docker-entrypoint.…"   3 hours ago    Exited (0) 3 minutes ago             web-8080
+dd00c8013b01   ubuntu                "bash"                   4 hours ago    Up 4 hours                           ubuntu-test
+ef9de4af58b5   hello-world           "/hello"                 4 hours ago    Exited (0) 4 hours ago               confident_ganguly
+409f96bca97c   ubuntu                "/bin/bash"              26 hours ago   Exited (0) 19 hours ago              mybox
+d0ab67f5abf5   hello-world           "/hello"                 26 hours ago   Exited (0) 26 hours ago              pedantic_bell
+.. 생략 .. 
+ruav@DESKTOP-JCSRKLA:~$ docker ps -a && docker images
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+                                                                       i Info →   U  In Use
+IMAGE           ID             DISK USAGE   CONTENT SIZE   EXTRA
+ubuntu:latest   6a06111c3b0a        163MB         45.9MB
+```
+
+![정리 전/후](docs/evidence/03_docker_cleanup.png)
+
+**확인 내용**
+
+- 실행 중인 컨테이너는 `stop` 후 `rm`으로 삭제한다.
+- `docker rm`(컨테이너)과 `docker rmi`(이미지)는 서로 다른 작업이다.
 
 ---
 
@@ -451,7 +481,7 @@ docker images
 
 **수행 목적**
 
-Docker가 정상적으로 작동하는지 확인하기 위해 기본 테스트 이미지를 실행합니다.
+Docker가 이미지를 내려받아 컨테이너를 정상 실행하는지 확인.
 
 **실행 명령어**
 
@@ -459,130 +489,141 @@ Docker가 정상적으로 작동하는지 확인하기 위해 기본 테스트 �
 docker run hello-world
 ```
 
-**검증 방법**
+**실행 결과**
 
-명령어 실행 후 Docker가 이미지를 내려받고 컨테이너를 실행하여 안내 메시지를 출력하는지 확인합니다.
+```text
+[실제 출력 입력]
+```
+
+![hello-world](docs/evidence/04_container_hello.png)
 
 **확인 내용**
 
-Docker 이미지는 컨테이너를 생성하는 데 필요한 실행 환경의 기반이 됩니다.
+- 이미지를 내려받고 컨테이너가 실행되어 안내 메시지가 출력되었다.
 
 #### 4-3-2. Ubuntu 컨테이너 실행
 
 **수행 목적**
 
-Ubuntu 이미지를 이용하여 Linux 컨테이너를 실행하고 내부에서 명령어를 사용합니다.
+Ubuntu 컨테이너 내부에 진입해 Linux 명령을 실행.
 
 **실행 명령어**
 
 ```bash
 docker run -it --name ubuntu-test ubuntu bash
-```
 
-**검증 명령어**
-
-```bash
+# 컨테이너 내부에서
 whoami
 pwd
 ls
+echo "hello from container"
+exit
+
+# 호스트에서
+docker ps -a                  # ubuntu-test 상태 확인
 ```
+
+**실행 결과**
+
+```text
+ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav$ docker run -it --name ubuntu-test ubuntu bash
+root@a1a6512d2796:/# whoami
+root
+root@a1a6512d2796:/# pwd
+/
+root@a1a6512d2796:/# ls
+bin   dev  home  lib64  mnt  proc  run   srv  tmp  var
+boot  etc  lib   media  opt  root  sbin  sys  usr
+root@a1a6512d2796:/# echo "hello from container"
+hello from container
+root@a1a6512d2796:/# exit
+exit
+ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav$ docker ps -a
+CONTAINER ID   IMAGE         COMMAND    CREATED          STATUS                     PORTS     NAMES
+a1a6512d2796   ubuntu        "bash"     48 seconds ago   Exited (0) 4 seconds ago             ubuntu-test
+3dbd881dcdb7   hello-world   "/hello"   2 minutes ago    Exited (0) 2 minutes ago             nervous_lalande
+```
+
+![Ubuntu 컨테이너](docs/evidence/04_container_ubuntu.png)
 
 **확인 내용**
 
-Docker 컨테이너 내부에서도 Linux 명령어를 사용할 수 있으며, 컨테이너는 독립된 실행 환경을 제공합니다.
+- 컨테이너 안에서도 Linux 명령이 동작하며, 호스트와 분리된 독립 환경이다.
+- `exit`로 메인 프로세스(bash)가 끝나면 컨테이너는 `Exited` 상태가 된다.
 
 #### 4-3-3. attach와 exec의 차이
 
 **수행 목적**
 
-실행 중인 컨테이너에 접근하는 두 가지 방법의 차이를 이해합니다.
+실행 중인 컨테이너에 접근하는 두 방법의 차이를 직접 관찰.
 
-| 명령어             | 기능                         |
-| --------------- | -------------------------- |
-| `docker attach` | 컨테이너의 주 실행 프로세스에 연결        |
-| `docker exec`   | 실행 중인 컨테이너 내부에서 새로운 명령어 실행 |
-
-**실행 예시**
+**실행 명령어**
 
 ```bash
-# 컨테이너 내부에 새로운 명령어 실행
-docker exec -it ubuntu-test bash
+docker run -dit --name keep ubuntu bash   # 터미널을 켠 채 백그라운드 실행
+docker ps
 
-# 실행 중인 컨테이너에 연결
-docker attach ubuntu-test
+docker exec -it keep bash                 # 새 프로세스로 진입
+exit
+docker ps                                 # exec 종료 후 상태
+
+docker attach keep                        # 메인 프로세스(PID 1)에 연결
+exit
+docker ps -a                              # attach 종료 후 상태
 ```
+
+**실행 결과**
+
+```text
+ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav$ docker run -dit --name keep ubuntu bash
+a64822d49366e16cb580e91214fa05a0b49ab0359ffd1c04b2ffb8777ddda440
+ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav$ docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED         STATUS         PORTS     NAMES
+a64822d49366   ubuntu    "bash"    3 seconds ago   Up 3 seconds             keep
+ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav$ docker exec -it keep bash
+root@a64822d49366:/# exit
+exit
+ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav$ docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED          STATUS          PORTS     NAMES
+a64822d49366   ubuntu    "bash"    21 seconds ago   Up 21 seconds             keep
+ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav$ docker attach keep
+root@a64822d49366:/# exit
+exit
+ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav$ docker ps -a
+CONTAINER ID   IMAGE         COMMAND    CREATED          STATUS                     PORTS     NAMES
+a64822d49366   ubuntu        "bash"     34 seconds ago   Exited (0) 3 seconds ago             keep
+a1a6512d2796   ubuntu        "bash"     5 minutes ago    Exited (0) 4 minutes ago             ubuntu-test
+3dbd881dcdb7   hello-world   "/hello"   6 minutes ago    Exited (0) 6 minutes ago             nervous_lalande
+```
+
+| 구분 | 연결 대상 | `exit` 후 컨테이너 상태 (관찰) |
+|---|---|---|
+| `docker exec` | 컨테이너 안에서 **새로 실행한** 프로세스 | `[Up / Exited 입력]` |
+| `docker attach` | 컨테이너의 **메인 프로세스(PID 1)** | `[Up / Exited 입력]` |
+
+![attach와 exec](docs/evidence/04_container_attach_exec.png)
 
 **확인 내용**
 
-`docker exec`는 실행 중인 컨테이너에서 별도의 명령어를 실행할 때 사용합니다.
-
-`docker attach`는 컨테이너의 주 실행 프로세스에 연결할 때 사용합니다.
-
-#### 4-3-4. 실행 결과 및 증거 자료
-
-```text
-[hello-world 실행 결과 입력]
-
-[Ubuntu 컨테이너 실행 결과 입력]
-
-[attach 및 exec 실행 결과 입력]
-```
-
-**증거 자료**
-
-- `[hello-world 실행 스크린샷 경로 입력]`
-- `[Ubuntu 컨테이너 실행 스크린샷 경로 입력]`
+- `exec`의 `exit`는 새로 띄운 프로세스만 끝내므로 컨테이너가 유지된다.
+- `attach`의 `exit`는 메인 프로세스를 끝내므로 컨테이너가 종료된다. (위 표의 관찰 결과로 확인)
 
 ---
 
 ### 4-4. Dockerfile 및 커스텀 이미지
 
-#### 4-4-1. Dockerfile 작성
+#### 4-4-1. Dockerfile 및 웹 페이지 준비
 
 **수행 목적**
 
-기본 Nginx 이미지를 기반으로 사용자 정의 웹 서버 이미지를 생성합니다.
+기존 `nginx:alpine` 이미지(웹 서버 베이스 활용)에 내 웹 페이지와 설정을 더해 커스텀 이미지를 정의.
 
-Dockerfile은 Docker 이미지를 만들기 위해 필요한 설정과 실행 명령어를 작성하는 파일입니다.
+**실행 명령어**
 
-**Dockerfile 구성**
+```bash
+cd ~/codyssey_AIO_ruav
 
-```dockerfile
-# Nginx Alpine 이미지를 기반으로 사용
-FROM nginx:alpine
-
-# 이미지 정보 설정
-LABEL org.opencontainers.image.title="my-custom-nginx"
-
-# 환경변수 설정
-ENV APP_ENV=dev
-
-# 웹 페이지 파일을 컨테이너 내부로 복사
-COPY app/ /usr/share/nginx/html/
-```
-
-**주요 명령어 설명**
-
-| 명령어     | 기능                  |
-| ------- | ------------------- |
-| `FROM`  | 기반 이미지 지정           |
-| `LABEL` | 이미지에 대한 정보 설정       |
-| `ENV`   | 환경변수 설정             |
-| `COPY`  | 호스트의 파일을 이미지 내부로 복사 |
-
-#### 4-4-2. 웹 페이지 파일 준비
-
-`app/index.html` 파일을 생성하여 웹 서버에서 표시할 내용을 작성합니다.
-
-**파일 경로**
-
-```text
-app/index.html
-```
-
-**HTML 예시**
-
-```html
+cat > app/index.html <<'EOF'
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -595,54 +636,86 @@ app/index.html
     <p>My Custom Nginx Web Server</p>
 </body>
 </html>
+EOF
+
+cat > Dockerfile <<'EOF'
+# Nginx Alpine 이미지를 기반으로 사용
+FROM nginx:alpine
+
+# 이미지 정보 설정
+LABEL org.opencontainers.image.title="my-custom-nginx"
+
+# 환경변수 설정
+ENV APP_ENV=dev
+
+# 웹 페이지 파일을 이미지 내부로 복사
+COPY app/ /usr/share/nginx/html/
+
+# 웹 서비스 포트
+EXPOSE 80
+EOF
+
+cat Dockerfile
 ```
 
-#### 4-4-3. 사용자 정의 이미지 생성
+**실행 결과**
+
+![Dockerfile](docs/evidence/05_web_server_build.png)
+
+**확인 내용**
+
+| 커스텀 포인트 | 적용 목적 |
+|---|---|
+| `FROM nginx:alpine` | 웹 서버가 포함된 가벼운 기존 이미지를 베이스로 사용 |
+| `LABEL` | 이미지 이름 정보를 메타데이터로 기록 |
+| `ENV APP_ENV=dev` | 실행 모드를 환경변수로 분리 (설정과 코드 분리) |
+| `COPY app/ ...` | 직접 만든 HTML을 Nginx 웹 루트로 복사 |
+
+#### 4-4-2. 이미지 빌드 및 검증
+
+**수행 목적**
+
+Dockerfile로 이미지를 빌드하고 커스텀 설정이 적용되었는지 확인.
 
 **실행 명령어**
 
 ```bash
 # 프로젝트 최상위 디렉터리에서 실행
 docker build -t my-custom-nginx:1.0 .
-```
-
-**검증 명령어**
-
-```bash
-# 생성된 이미지 확인
 docker images
+
+
+**실행 결과**
+
+```text
+ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav/Pre1-1$ docker build -t my-custom-nginx:1.0 .
+[+] Building 2.2s (7/7) FINISHED                                            docker:default
+ => [internal] load build definition from Dockerfile                                  0.0s
+.. 생략 .. 
+ => [2/2] COPY app/ /usr/share/nginx/html/                                            0.0s
+.. 생략 .. 
+ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav/Pre1-1$ docker images
+                                                                       i Info →   U  In Use
+IMAGE                 ID             DISK USAGE   CONTENT SIZE   EXTRA
+hello-world:latest    c567b231f656       25.9kB         9.49kB    U
+my-custom-nginx:1.0   ccaecd6e08b5       93.6MB         26.3MB
+ubuntu:latest         6a06111c3b0a        163MB         45.9MB    U
 ```
 
 **확인 내용**
 
-- `docker build`: Dockerfile을 기반으로 이미지 생성
-- `-t`: 이미지 이름과 태그 지정
-- `.`: 현재 디렉터리를 빌드 작업 위치로 지정
-
-생성된 이미지 이름은 `my-custom-nginx`이며 태그는 `1.0`입니다.
-
-#### 4-4-4. 실행 결과 및 증거 자료
-
-```text
-[실제 docker build 결과 입력]
-
-[실제 docker images 결과 입력]
-```
-
-**증거 자료**
-
-- `[Dockerfile 작성 화면 스크린샷 경로 입력]`
-- `[Docker 이미지 생성 결과 스크린샷 경로 입력]`
+- 빌드가 성공해 `my-custom-nginx:1.0` 이미지가 생성되었다. (`-t`는 이름:태그, `.`은 빌드 컨텍스트)
+- 컨테이너 실행은 4-5에서 확인한다.
 
 ---
 
 ### 4-5. 포트 매핑 및 웹 서버 접속
 
-#### 4-5-1. 포트 매핑의 개념
+#### 4-5-1. 포트 매핑을 이용한 컨테이너 실행과 접속
 
 **수행 목적**
 
-Docker 컨테이너 내부에서 실행되는 웹 서버에 호스트 환경을 통해 접속할 수 있도록 포트를 연결합니다.
+컨테이너 내부의 웹 서버(80)에 호스트 포트를 연결해 브라우저와 `curl`로 접속.
 
 **포트 매핑 구조**
 
@@ -660,191 +733,179 @@ Nginx 웹 서버
 
 포트 매핑은 호스트의 포트와 컨테이너 내부의 포트를 연결하는 기능입니다.
 
-#### 4-5-2. 포트 매핑을 이용한 컨테이너 실행
-
 **실행 명령어**
 
 ```bash
-# 호스트 8080 포트와 컨테이너 80 포트 연결
 docker run -d --name web-8080 -p 8080:80 my-custom-nginx:1.0
-
-# 추가 포트 매핑 실습
 docker run -d --name web-8081 -p 8081:80 my-custom-nginx:1.0
-```
-
-**검증 명령어**
-
-```bash
-# 실행 중인 컨테이너 확인
 docker ps
 
-# 웹 서버 응답 확인
 curl http://localhost:8080
-
-# 추가 포트 응답 확인
 curl http://localhost:8081
+
+# 비교: -p 없이 실행
+docker run -d --name no-port my-custom-nginx:1.0
+docker ps                       # PORTS 열에 호스트 포트가 없는지 확인
+curl http://localhost:80        # 접속 실패 예상 (나온 결과 그대로 기록)
 ```
 
-※ 동일한 컨테이너 이름이 이미 존재하거나 포트가 사용 중인 경우 이름 또는 포트를 변경합니다.
+브라우저 접속: `http://localhost:8080`, `http://localhost:8081` (주소창이 보이게 캡처)
 
-#### 4-5-3. 웹 브라우저 접속 확인
-
-브라우저 주소창에 다음 주소를 입력합니다.
+**실행 결과**
 
 ```text
-http://localhost:8080
-http://localhost:8081
+[docker ps 결과]
+ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav/Pre1-1$ docker ps
+CONTAINER ID   IMAGE                 COMMAND                  CREATED         STATUS         PORTS                                     NAMES
+8ee46205a190   my-custom-nginx:1.0   "/docker-entrypoint.…"   3 seconds ago   Up 2 seconds   0.0.0.0:8081->80/tcp, [::]:8081->80/tcp   web-8081
+3909c24fe9ce   my-custom-nginx:1.0   "/docker-entrypoint.…"   8 seconds ago   Up 8 seconds   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   web-8080
+.. 생략 ..
+ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav/Pre1-1$ docker ps
+CONTAINER ID   IMAGE                 COMMAND                  CREATED          STATUS          PORTS                                     NAMES
+81ff35976362   my-custom-nginx:1.0   "/docker-entrypoint.…"   6 seconds ago    Up 5 seconds    80/tcp                                    no-port
+8ee46205a190   my-custom-nginx:1.0   "/docker-entrypoint.…"   38 seconds ago   Up 37 seconds   0.0.0.0:8081->80/tcp, [::]:8081->80/tcp   web-8081
+3909c24fe9ce   my-custom-nginx:1.0   "/docker-entrypoint.…"   43 seconds ago   Up 42 seconds   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   web-8080
+ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav/Pre1-1$ curl http://localhost:80
+curl: (7) Failed to connect to localhost port 80 after 0 ms: Couldn't connect to server
+
+[curl 결과]
+ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav/Pre1-1$ curl http://localhost:8080
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Custom Nginx</title>
+</head>
+<body>
+    <h1>Hello, Docker!</h1>
+    <p>My Custom Nginx Web Server</p>
+</body>
+</html>
+.. 생략 ..
 ```
 
-**검증 방법**
-
-- `docker ps`에서 컨테이너의 포트 연결 상태 확인
-- `curl` 명령어로 웹 서버 응답 확인
-- 웹 브라우저에서 실제 HTML 페이지 표시 여부 확인
+![CLI 화면](docs/evidence/06_port_mapping_8080.png)
+![웹 접속 화면](docs/evidence/06_port_mapping_8081.png)
 
 **확인 내용**
 
-호스트 포트와 컨테이너 포트가 연결되면 호스트의 브라우저에서 컨테이너 내부의 Nginx 웹 서버에 접근할 수 있습니다.
-
-#### 4-5-4. 실행 결과 및 증거 자료
-
 ```text
-[실제 docker ps 결과 입력]
-
-[실제 curl 실행 결과 입력]
+브라우저/curl  →  호스트 8080  →  컨테이너 80  →  Nginx
 ```
 
-**증거 자료**
-
-- `[8080 포트 브라우저 접속 화면 경로 입력]`
-- `[8081 포트 브라우저 접속 화면 경로 입력]`
+- `-p 호스트:컨테이너`로 연결하면 호스트에서 컨테이너 내부 Nginx에 접속할 수 있고, `docker ps`의 `0.0.0.0:8080->80/tcp`로 연결 상태를 확인한다.
+- 컨테이너 내부 포트는 둘 다 80이지만 호스트 포트를 다르게 해 동시에 접속할 수 있다.
+- `-p` 없이 실행한 컨테이너는 호스트에서 접속되지 않는다. (포트 매핑이 필요한 이유 : 5번에서 설명)
 
 ---
 
 ### 4-6. 바인드 마운트 및 볼륨
 
-#### 4-6-1. Bind Mount 실습
+#### 4-6-1. 바인드 마운트
 
 **수행 목적**
 
-호스트의 특정 디렉터리와 컨테이너 내부 디렉터리를 연결하여 호스트에서 수정한 파일이 컨테이너에 반영되는지 확인합니다.
+호스트에서 수정한 파일이 재빌드 없이 컨테이너에 반영되는지 확인하고, `COPY`로 만든 컨테이너와 비교.
 
 **실행 명령어**
 
 ```bash
-# 프로젝트 최상위 디렉터리에서 실행
-docker run -d \
-  --name web-bind \
-  -p 8082:80 \
-  -v "$(pwd)/app:/usr/share/nginx/html" \
-  my-custom-nginx:1.0
-```
-
-**검증 명령어**
-
-```bash
-# 컨테이너 실행 상태 확인
+cd ~/codyssey_AIO_ruav/Pre1-1          # WSL 파일시스템 경로에서 실행 (/mnt/c 아님)
+docker run -d --name web-bind -p 8082:80 -v "$(pwd)/app:/usr/share/nginx/html" my-custom-nginx:1.0
 docker ps
 
-# 웹 페이지 응답 확인
-curl http://localhost:8082
+curl http://localhost:8082                                  # 변경 전
+echo '<p>bind mount 수정 확인</p>' >> app/index.html
+curl http://localhost:8082                                  # 변경 후
+curl http://localhost:8080                                  # COPY 컨테이너는 그대로
 ```
 
-**추가 실습**
-
-호스트의 `app/index.html` 파일 내용을 수정한 후 브라우저에서 다시 접속합니다.
+**실행 결과**
 
 ```text
-http://localhost:8082
+ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav/Pre1-1$ curl http://localhost:8082
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codyssey AIO - Docker 실습</title>
+</head>
+<body>
+    <h1>Docker 커스텀 이미지 실행 성공!</h1>
+    <p>Codyssey AIO - ruav 실습 페이지입니다.</p>
+    <p>Nginx 컨테이너가 사용자 정의 HTML 페이지를 정상적으로 제공하고 있습니다.</p>
+</body>
+</html>
+ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav/Pre1-1$ echo '<p>bind mount 수정 확인</p>' >> app/index.html
+ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav/Pre1-1$ curl http://localhost:8082
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codyssey AIO - Docker 실습</title>
+</head>
+<body>
+    <h1>Docker 커스텀 이미지 실행 성공!</h1>
+    <p>Codyssey AIO - ruav 실습 페이지입니다.</p>
+    <p>Nginx 컨테이너가 사용자 정의 HTML 페이지를 정상적으로 제공하고 있습니다.</p>
+</body>
+</html>
+<p>bind mount 수정 확인</p>
 ```
+
+![바인드 마운트 전/후](docs/evidence/07_bind_mount.png)
 
 **확인 내용**
 
-Bind Mount는 호스트의 특정 파일이나 디렉터리를 컨테이너 내부의 경로와 직접 연결합니다.
-
-따라서 호스트에서 파일을 수정하면 컨테이너에서도 변경된 내용을 확인할 수 있습니다.
+- 호스트에서 수정한 내용이 `web-bind`(8082)에는 바로 반영되고, `COPY`한 `web-8080`에는 반영되지 않았다.
+- 이미지에 `COPY`된 내용을 바꾸려면 재빌드가 필요하다.
 
 #### 4-6-2. Volume 생성 및 데이터 유지
 
 **수행 목적**
 
-컨테이너가 삭제된 후에도 데이터를 유지할 수 있는 Docker Volume의 기능을 확인합니다.
+컨테이너를 삭제해도 볼륨의 데이터가 유지되는지 확인. 볼륨 없이 실행한 경우와 대조.
 
 **실행 명령어**
 
 ```bash
-# Volume 생성
+# 대조: 볼륨 없이
+docker run -d --name no-vol ubuntu sleep infinity
+docker exec no-vol bash -c "echo temp > /tmp/data.txt && cat /tmp/data.txt"
+docker rm -f no-vol
+docker run -d --name no-vol2 ubuntu sleep infinity
+docker exec no-vol2 cat /tmp/data.txt          # 파일 없음 예상
+
+# 볼륨 사용
 docker volume create mydata
-
-# Volume 목록 확인
 docker volume ls
-
-# Volume을 연결한 컨테이너 실행
-docker run -it --name volume-test \
-  -v mydata:/data \
-  ubuntu bash
+docker run -d --name volume-test -v mydata:/data ubuntu sleep infinity
+docker exec volume-test bash -c "echo 'Hello Docker Volume' > /data/hello.txt && cat /data/hello.txt"
+docker rm -f volume-test
+docker ps -a                                    # volume-test 삭제 확인
+docker run -d --name volume-test2 -v mydata:/data ubuntu sleep infinity
+docker exec volume-test2 cat /data/hello.txt    # 데이터 유지 확인
+docker volume inspect mydata
 ```
 
-**컨테이너 내부에서 실행**
+**실행 결과**
 
-```bash
-# 데이터 파일 생성
-echo "Hello Docker Volume" > /data/hello.txt
-
-# 파일 내용 확인
-cat /data/hello.txt
-
-# 컨테이너 종료
-exit
-```
-
-**컨테이너 삭제**
-
-```bash
-docker rm volume-test
-```
-
-**동일한 Volume을 연결하여 새로운 컨테이너 실행**
-
-```bash
-docker run -it --name volume-test2 \
-  -v mydata:/data \
-  ubuntu bash
-```
-
-**데이터 유지 여부 확인**
-
-```bash
-cat /data/hello.txt
-```
+![볼륨 없이](docs/evidence/08_volume_novol.png)
+![볼륨 영속성](docs/evidence/08_volume_persist.png)
 
 **확인 내용**
 
-컨테이너를 삭제하더라도 Volume 자체를 삭제하지 않았다면 저장된 데이터는 유지됩니다.
+- 볼륨 없이 쓴 데이터는 컨테이너 삭제와 함께 사라지고, 볼륨에 쓴 데이터는 컨테이너를 삭제해도 새 컨테이너에서 그대로 확인되었다.
 
-#### 4-6-3. Bind Mount와 Volume 비교
-
-| 구분    | Bind Mount      | Volume             |
-| ----- | --------------- | ------------------ |
-| 저장 위치 | 호스트의 지정된 경로     | Docker가 관리하는 저장 공간 |
-| 연결 방식 | 호스트 경로를 직접 연결   | Volume 이름으로 연결     |
-| 주요 용도 | 개발 중 파일 수정 및 반영 | 컨테이너와 독립적인 데이터 유지  |
-| 실습 예시 | `app/`          | `mydata`           |
-
-#### 4-6-4. 실행 결과 및 증거 자료
-
-```text
-[Bind Mount 실행 및 파일 변경 결과 입력]
-
-[Volume 생성 결과 입력]
-
-[컨테이너 삭제 후 데이터 유지 확인 결과 입력]
-```
-
-**증거 자료**
-
-- `[Bind Mount 연결 확인 스크린샷 경로 입력]`
-- `[Volume 생성 및 데이터 유지 확인 스크린샷 경로 입력]`
+| 구분 | 바인드 마운트 | 볼륨 |
+|---|---|---|
+| 저장 위치 | 호스트의 지정한 경로 | Docker가 관리하는 저장 공간 |
+| 연결 방식 | 호스트 경로를 직접 연결 | 볼륨 이름으로 연결 |
+| 주요 용도 | 개발 중 파일 수정 즉시 반영 | 컨테이너와 독립적인 데이터 유지 |
+| 이번 실습 | `app/` | `mydata` |
 
 ---
 
@@ -854,7 +915,7 @@ cat /data/hello.txt
 
 **수행 목적**
 
-Git을 이용하여 프로젝트의 변경 사항을 기록하고 GitHub 원격 저장소와 연동할 수 있도록 기본 설정을 진행합니다.
+커밋 작성자 정보와 기본 브랜치를 설정하고 확인.
 
 **실행 명령어**
 
@@ -872,7 +933,14 @@ git config --global init.defaultBranch main
 git config --list
 ```
 
-※ 실제 사용자 이름과 이메일 주소를 입력합니다. 공개 문서에 개인정보가 노출되지 않도록 이메일 주소 등은 필요에 따라 가립니다.
+**실행 결과**
+
+![git config](docs/evidence/09_git_config.png)
+
+**확인 내용**
+
+- `user.name`, `user.email`은 커밋 작성자 정보이며, GitHub 로그인과는 별개의 설정이다.
+- 기본 브랜치가 `main`으로 설정되었다.
 
 #### 4-7-2. Git 저장소 초기화 및 원격 저장소 연결
 
@@ -1078,6 +1146,11 @@ pwd
 ### 7-1. 프로젝트 재현 방법
 
 다른 환경에서도 동일한 프로젝트를 실행할 수 있도록 기본 절차를 정리합니다.
+
+**0단계. 로컬 환경 셋팅(Docker, Git, VS Code 동시 설치 명령어)**
+```bash
+winget install --id Docker.DockerDesktop -e --accept-source-agreements --accept-package-agreements; winget install --id Git.Git -e --accept-source-agreements --accept-package-agreements; winget install --id Microsoft.VisualStudioCode -e --accept-source-agreements --accept-package-agreements
+```
 
 **1단계. GitHub 저장소 복제**
 
