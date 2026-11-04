@@ -1,0 +1,13 @@
+# 인증 정보 / 개인키
+.env
+*.pem
+*.key
+id_rsa*
+id_ed25519*
+
+# 개인 학습 메모
+mission-notes/
+
+# OS 생성 파일
+.DS_Store
+Thumbs.db
