@@ -38,36 +38,16 @@
 
 ### 1-3. 수행 항목 체크리스트 
 
-WSL2와 Docker의 관계
-
-WSL2는 Windows 환경에서 Linux를 사용할 수 있도록 지원하는 기능입니다.
-
-이번 실습에서는 Windows에 설치된 WSL2를 통해 Ubuntu를 실행하고, Ubuntu 터미널에서 Linux 명령어와 Docker 명령어를 사용했습니다.
-
-**개발 환경의 연결 구조**
-
-```text
-Windows 11
-    │
-    ├── Visual Studio Code
-    │
-    └── WSL2
-          │
-          └── Ubuntu
-                │
-                ├── Linux 명령어 실행
-                │
-                ├── Git 명령어 실행
-                │
-                └── Docker 명령어 실행
-                      │
-                      └── Docker Container
-```
-
-- Windows: 기본 운영체제
-- WSL2: Windows에서 Linux를 실행하는 환경
-- Ubuntu: Linux 명령어를 실습하는 운영체제
-- Docker: 컨테이너를 생성하고 관리하는 도구
+- [ ] **Linux CLI 실습**: 현재 위치·파일 목록(숨김 파일 포함) 확인, 디렉토리 이동, 파일 및 폴더 생성·복사·이동·삭제, 파일 내용 확인
+- [ ] **Linux 권한 관리**: `note.txt` 권한을 644 → 600, `backup/` 디렉토리 권한을 755 → 700으로 변경하고 전후 비교
+- [ ] **Docker 환경 점검**: Docker 버전 및 엔진 동작 확인, `nginx:alpine` 이미지 다운로드 및 목록 확인
+- [ ] **Docker 컨테이너 관리**: hello-world·Ubuntu 컨테이너 실행, 컨테이너 실행·중지·삭제, 로그 및 리소스 확인, `exec`와 `attach` 차이 확인
+- [ ] **Dockerfile 및 커스텀 이미지**: `nginx:alpine` 기반 `e1-1-web:1.0` 이미지 빌드, 웹 페이지 복사, LABEL 및 HEALTHCHECK 설정 후 컨테이너 실행
+- [ ] **포트 매핑 및 웹 접속**: `-p 8090:80` 설정 후 `curl` 및 웹 브라우저 접속 확인
+- [ ] **바인드 마운트**: `e1-1/bind/` 디렉토리를 컨테이너에 연결하고 호스트 파일 수정 전후의 웹 응답 비교
+- [ ] **Docker 볼륨**: `e1-1-vol` 생성 및 연결, 컨테이너 삭제 전후 데이터 유지 확인
+- [ ] **Git 설정 및 확인**: Git 사용자 이름·이메일 설정, 기본 브랜치 `main` 설정, `git config --list` 결과 확인
+- [ ] **GitHub 및 VSCode 연동**: GitHub 로그인, 원격 저장소 연결, 로컬 파일 커밋 및 Push, GitHub 업로드 결과 확인, VSCode 연동 확인
 
 ---
 
@@ -1077,26 +1057,57 @@ Linux는 파일 및 디렉터리에 대해 소유자, 그룹, 기타 사용자�
 - 644: 소유자는 읽기 및 쓰기 가능, 그룹과 기타 사용자는 읽기 가능
 - 700: 소유자만 읽기, 쓰기 및 실행 가능
 
-### 5-3. Docker 이미지와 컨테이너
+### 5-3. WSL2와 Docker의 관계
+
+WSL2는 Windows 환경에서 Linux를 사용할 수 있도록 지원하는 기능입니다.
+
+이번 실습에서는 Windows에 설치된 WSL2를 통해 Ubuntu를 실행하고, Ubuntu 터미널에서 Linux 명령어와 Docker 명령어를 사용했습니다.
+
+**개발 환경의 연결 구조**
+
+```text
+Windows 11
+    │
+    ├── Visual Studio Code
+    │
+    └── WSL2
+          │
+          └── Ubuntu
+                │
+                ├── Linux 명령어 실행
+                │
+                ├── Git 명령어 실행
+                │
+                └── Docker 명령어 실행
+                      │
+                      └── Docker Container
+```
+
+- Windows: 기본 운영체제
+- WSL2: Windows에서 Linux를 실행하는 환경
+- Ubuntu: Linux 명령어를 실습하는 운영체제
+- Docker: 컨테이너를 생성하고 관리하는 도구
+
+### 5-4. Docker 이미지와 컨테이너
 
 - 이미지(Image): 컨테이너를 생성하기 위한 실행 환경의 기반
 - 컨테이너(Container): 이미지를 기반으로 실행되는 독립적인 환경
 - Dockerfile: 이미지를 만들기 위한 설정 파일
 
-### 5-4. 포트 매핑
+### 5-5. 포트 매핑
 
 호스트와 컨테이너 내부의 포트를 연결하여 외부에서 컨테이너의 서비스에 접근할 수 있도록 하는 기능입니다.
 
 예를 들어 `-p 8080:80`은 호스트의 8080 포트를 컨테이너의 80 포트에 연결합니다.
 
-### 5-5. Bind Mount와 Volume
+### 5-6. Bind Mount와 Volume
 
 - Bind Mount: 호스트의 특정 경로와 컨테이너 내부 경로를 직접 연결합니다.
 - Volume: Docker가 관리하는 저장 공간을 컨테이너에 연결합니다.
 
 두 방식 모두 컨테이너 내부에서 사용하는 데이터를 컨테이너 자체와 분리하여 관리할 수 있습니다.
 
-### 5-6. Git과 GitHub
+### 5-7. Git과 GitHub
 
 - Git은 프로젝트의 변경 이력을 관리합니다.
 - GitHub는 Git 저장소를 온라인에서 관리하고 공유할 수 있도록 지원합니다.
@@ -1240,7 +1251,7 @@ GitHub에 프로젝트를 업로드할 때 다음 정보가 노출되지 않도�
 git config --list
 ```
 
-이 명령어로 확인되는 이메일 주소 등 개인정보가 공개되지 않도록 스크린샷을 촬영하거나 문서를 작성할 때 주의합니다.
+이 명령어로 확인되는 이메일 주소 등 개인정보가 공개되지 않도록 스크린샷을 촬영하거나 문서를 작성할 때 주의 해야합니다.
 
 ---
 
@@ -1276,11 +1287,13 @@ Bind Mount와 Volume 실습을 통해 컨테이너와 데이터를 분리하여 
 
 ## 9. 보너스 과제 (선택)
 
-기본 미션 수행 이후 추가로 학습할 수 있는 확장 과제입니다.
-
 ### 9-1. SSH 방식 GitHub 연동
 
-SSH 키를 생성하고 공개 키를 GitHub에 등록하여 HTTPS 방식과 다른 인증 방법을 학습합니다.
+SSH 키를 생성하고 공개 키를 GitHub에 등록하여 HTTPS 방식과 다른 인증 방법을 학습했습니다.
+
+![SSH키 등록 증거1](docs/evidence/git1.png)
+![SSH키 등록 증거2](docs/evidence/git2.png)
+![SSH키 등록 증거3](docs/evidence/git3.png)
 
 ### 9-2. Docker Compose
 
