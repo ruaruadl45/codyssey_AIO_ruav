@@ -36,7 +36,9 @@
 > - 출력에 보이는 `/Users/ruav/codyssey_AIO_ruav`는 작성자 PC 경로. 각자 저장소를 내려받은 위치로 바꿔 읽기.
 > - 각 섹션은 저장소 루트(`codyssey_AIO_ruav/`)에서 시작.
 
-### 1-3. WSL2와 Docker의 관계
+### 1-3. 수행 항목 체크리스트 
+
+WSL2와 Docker의 관계
 
 WSL2는 Windows 환경에서 Linux를 사용할 수 있도록 지원하는 기능입니다.
 
@@ -82,18 +84,26 @@ Windows 11
 ### 2-2. 프로젝트 디렉터리 구조
 
 ```text
-codyssey_AIO_ruav/Pre1-1
+codyssey_AIO_ruav/
 │
-├── README.md
+├── README.md    
 │
-├── Dockerfile
-│
-├── app/
-│   └── index.html
-│
-└── docs/
-    └── evidence/
-        └── (실습 증거 스크린샷)
+└── pre1-1/                
+    ├── README.md     
+    ├── Dockerfile
+    ├── app/
+    │   └── index.html
+    └── docs/
+        └── evidence/
+            ├── 01_terminal.png
+            ├── 02_permission_*.png
+            ├── 03_docker*.png
+            ├── 04_container_*.png
+            ├── 05_web_server_*.png
+            ├── 06_port_mapping_*.png
+            ├── 07_bind_mount.png
+            ├── 08_volume_*.png
+            └── 09_*.png            # Git/GitHub/VSCode 연동
 ```
 
 | 파일 및 폴더          | 역할                           |
@@ -114,21 +124,21 @@ codyssey_AIO_ruav/Pre1-1
 
 ---
 
-## 3. 수행 체크리스트
+## 3. 기능 요구사항
 
 전체 미션 수행 항목과 검증 방법, 상세 기록 및 증거 자료의 위치를 정리합니다.
 
 | 번호 | 수행 항목                  | 주요 검증 명령어                         | 상세 기록                            | 증거 자료        |
 | -- | ---------------------- | --------------------------------- | -------------------------------- | ------------ |
-| 1  | Linux CLI 및 파일 관리      | `pwd`, `ls`, `mkdir`, `touch`     | [4-1](#4-1-linux-cli-및-파일-권한)    | [스크린샷 경로 입력] |
-| 2  | 파일 및 디렉터리 권한           | `chmod`, `ls -l`                  | [4-1](#4-1-linux-cli-및-파일-권한)    | [스크린샷 경로 입력] |
-| 3  | Docker 설치 및 상태 확인      | `docker --version`, `docker info` | [4-2](#4-2-docker-점검·운영·정리)      | [스크린샷 경로 입력] |
-| 4  | Docker 컨테이너 관리         | `docker ps`, `docker logs`        | [4-2](#4-2-docker-점검·운영·정리)      | [스크린샷 경로 입력] |
-| 5  | 컨테이너 실행                | `docker run`, `docker exec`       | [4-3](#4-3-컨테이너-실행)              | [스크린샷 경로 입력] |
-| 6  | Dockerfile 작성 및 이미지 생성 | `docker build`, `docker images`   | [4-4](#4-4-dockerfile-및-커스텀-이미지) | [스크린샷 경로 입력] |
-| 7  | 포트 매핑 및 웹 서버 접속        | `docker ps`, `curl`               | [4-5](#4-5-포트-매핑-및-웹-서버-접속)      | [스크린샷 경로 입력] |
-| 8  | Bind Mount 및 Volume    | `docker volume`, `docker inspect` | [4-6](#4-6-바인드-마운트-및-볼륨)         | [스크린샷 경로 입력] |
-| 9  | Git 및 GitHub 연동        | `git status`, `git push`          | [4-7](#4-7-git-및-github-연동)      | [스크린샷 경로 입력] |
+| 1 | Linux CLI 및 파일 관리 | `pwd`, `ls`, `mkdir`, `touch` | [4-1-1](#4-1-1-Linux-기본-명령어-및-파일-관리) | [01_terminal](docs/evidence/01_terminal.png)<br>[01_terminal2](docs/evidence/01_terminal2.png) |
+| 2 | 파일 및 디렉터리 권한 | `chmod`, `ls -l` | [4-1-3](#4-1-3-Linux-파일-및-디렉터리-권한) | [02_permission_file](docs/evidence/02_permission_file.png)<br>[02_permission_dir](docs/evidence/02_permission_dir.png) |
+| 3 | Docker 설치 및 상태 확인 | `docker --version`, `docker info` | [4-2](#4-2-1-Docker-설치-및-상태-확인) | [03_docker](docs/evidence/03_docker.png) |
+| 4 | Docker 컨테이너 관리 | `docker ps`, `docker logs` | [4-2](#4-2-3-컨테이너-및-이미지-정리) | [03_docker_cleanup](docs/evidence/03_docker_cleanup.png) |
+| 5 | 컨테이너 실행 | `docker run`, `docker exec` | [4-3](#4-3-컨테이너-실행) | [04_container_hello](docs/evidence/04_container_hello.png)<br>[04_container_ubuntu](docs/evidence/04_container_ubuntu.png)<br>[04_container_attach_exec](docs/evidence/04_container_attach_exec.png) |
+| 6 | Dockerfile 및 커스텀 이미지 | `docker build`, `docker images` | [4-4](#4-4-dockerfile-및-커스텀-이미지) | [05_web_server_build](docs/evidence/05_web_server_build.png) |
+| 7 | 포트 매핑 및 웹 서버 접속 | `docker ps`, `curl` | [4-5](#4-5-포트-매핑-및-웹-서버-접속) | [06_port_mapping_8080](docs/evidence/06_port_mapping_8080.png)<br>[06_port_mapping_8081](docs/evidence/06_port_mapping_8081.png) |
+| 8 | Bind Mount 및 Volume | `docker volume`, `docker inspect` | [4-6](#4-6-바인드-마운트-및-볼륨) | [07_bind_mount](docs/evidence/07_bind_mount.png)<br>[08_volume_novol](docs/evidence/08_volume_novol.png)<br>[08_volume_persist](docs/evidence/08_volume_persist.png) |
+| 9 | Git 및 GitHub 연동 | `git status`, `git push` | [4-7](#4-7-git-및-github-연동) | [09_git_config](docs/evidence/09_git_config.png)<br>[09_git_push](docs/evidence/09_git_push.png)<br>[09_vscode_github](docs/evidence/09_vscode_github.png)<br>[09_github_web](docs/evidence/09_github_web.png) |
 
 ---
 
@@ -291,42 +301,48 @@ ruav@DESKTOP-JCSRKLA:~$ pwd
 | 644 | 읽기, 쓰기     | 읽기     | 읽기     |
 | 700 | 읽기, 쓰기, 실행 | 권한 없음  | 권한 없음  |
 
-**권한 설정 예시**
+**실행 명령어**
 
 ```bash
-# 실행 권한 추가
+# 파일: 변경 전 → 후
+cd ~/practice
+echo 'echo script ran' > script.sh
+ls -l script.sh               # 변경 전 (실행 권한 없음)
+./script.sh                   # Permission denied 예상
 chmod +x script.sh
+ls -l script.sh               # 변경 후 (x 추가)
+./script.sh                   # 실행 성공
 
-# 파일 권한을 644로 변경
-chmod 644 note.txt
+chmod 644 note.txt && ls -l note.txt
+chmod 755 script.sh && ls -l script.sh
 
-# 파일 권한을 755로 변경
-chmod 755 script.sh
-
-# 디렉터리 권한을 700으로 변경
+# 디렉터리: 변경 전 → 후
+cd ~
+ls -ld practice               # 변경 전
 chmod 700 practice
+ls -ld practice               # 변경 후 (drwx------)
+chmod 000 practice
+cd practice                   # Permission denied 예상 (진입에는 x 필요)
+chmod 755 practice            # 원래대로 복구
 
-# 파일 권한 확인
-ls -l note.txt
-
-# 디렉터리 권한 확인
-ls -ld practice
-``` ???? 
+# 기본 권한 규칙
+umask                         # 보통 0022
+touch umask_file && mkdir umask_dir
+ls -ld umask_file umask_dir   # 기본 권한 확인
+rm umask_file && rmdir umask_dir
+```
 
 **실행 결과**
-
-```text
-[실제 출력 입력]
-```
 
 ![파일 권한 변경 전/후](docs/evidence/02_permission_file.png)
 ![디렉터리 권한 변경 전/후](docs/evidence/02_permission_dir.png)
 
 **확인 내용**
 
-- `chmod`는 파일이나 디렉터리의 권한을 변경하는 명령어로 `ls -l`은 파일의 권한을 확인하며, `ls -ld`는 디렉터리 자체의 권한을 확인합니다.
+- `chmod`로 권한을 변경하고, `ls -l`은 파일 권한을, `ls -ld`는 디렉터리 자체의 권한을 확인한다.
 - `r=4`, `w=2`, `x=1`을 소유자/그룹/기타별로 더해 3자리로 표기한다. `644`는 `rw-r--r--`, `755`는 `rwxr-xr-x`, `700`은 `rwx------`이다.
-- 실행 권한(`x`)이 없는 스크립트는 실행되지 않고, 디렉터리는 `x`가 없으면 `cd`로 들어갈 수 없다.
+- 실행 권한(`x`)이 없는 스크립트는 실행되지 않고, 디렉터리는 `x`가 없으면 `cd`로 들어갈 수 없다. 
+- 새 파일은 기본 `666`, 디렉터리는 `777`에서 `umask`(022)를 뺀 `644`, `755`가 된다. (실제 `umask` 값: `[022]`)
 
 ---
 
@@ -942,7 +958,11 @@ git config --list
 - `user.name`, `user.email`은 커밋 작성자 정보이며, GitHub 로그인과는 별개의 설정이다.
 - 기본 브랜치가 `main`으로 설정되었다.
 
-#### 4-7-2. Git 저장소 초기화 및 원격 저장소 연결
+#### 4-7-2. 저장소 연결 및 GitHub 업로드
+
+**수행 목적**
+
+로컬 프로젝트를 Git 저장소로 만들고 GitHub 원격 저장소에 연결해 업로드.
 
 **실행 명령어**
 
@@ -987,18 +1007,9 @@ git branch -M main
 git push -u origin main
 ```
 
-**검증 명령어**
+**실행 결과**
 
-```bash
-# 현재 브랜치 확인
-git branch
-
-# 변경 사항 확인
-git status
-
-# 원격 저장소 연결 확인
-git remote -v
-```
+![git push](docs/evidence/09_git_push.png)
 
 **확인 내용**
 
@@ -1010,25 +1021,33 @@ git remote -v
 | `git push`      | 로컬 저장소의 변경 사항을 원격 저장소에 업로드 |
 | `git remote -v` | 원격 저장소 주소 확인               |
 
-#### 4-7-4. Git과 GitHub의 차이
+- `git add`(스테이징) → `git commit`(로컬 기록) → `git push`(원격 전송) 순서로 업로드했다.
+- Git과 GitHub의 차이는 [5. 핵심 개념 정리](#5-핵심-개념-정리)에서 설명한다.
 
-- Git: 파일의 변경 이력을 기록하고 관리하는 버전 관리 도구
-- GitHub: Git으로 관리하는 프로젝트를 온라인에서 저장하고 공유할 수 있는 서비스
+#### 4-7-4. VSCode 연동 및 업로드 확인
 
-#### 4-7-5. 실행 결과 및 증거 자료
+**수행 목적**
 
-```text
-[실제 git status 결과 입력]
+VSCode에서 GitHub에 로그인하고 저장소가 연동되었는지, GitHub에 파일이 올라갔는지 확인.
 
-[실제 git remote -v 결과 입력]
+**실행 명령어**
 
-[실제 git push 결과 입력]
+```bash
+cd ~/codyssey_AIO_ruav
+code .                          # WSL 확장이 설치된 VSCode로 프로젝트 열기
 ```
 
-**증거 자료**
+VSCode 왼쪽 아래 계정 아이콘에서 GitHub에 로그인한 뒤 Source Control 화면을 확인합니다.
 
-- `[Git 저장소 초기화 및 원격 저장소 연결 스크린샷 경로 입력]`
-- `[GitHub 업로드 완료 화면 경로 입력]`
+**실행 결과**
+
+![VSCode GitHub 연동](docs/evidence/09_vscode_github.png)
+![GitHub 저장소 화면](docs/evidence/09_github_web.png)
+
+**확인 내용**
+
+- VSCode에 GitHub 계정이 로그인되어 있고, Source Control에서 `main` 브랜치와 원격 저장소가 확인된다.
+- GitHub 저장소 웹페이지에서 `README.md`, `Dockerfile`, `app/`, `docs/evidence/`가 보인다.
 
 ---
 
