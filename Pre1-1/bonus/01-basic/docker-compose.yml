@@ -1,0 +1,5 @@
+services:
+  web:
+    image: my-custom-nginx:1.0
+    ports:
+      - "8090:80"

@@ -1,0 +1,7 @@
+services:
+  web:
+    image: my-custom-nginx:1.0
+    ports:
+      - "${WEB_PORT:-8092}:80"
+    environment:
+      APP_ENV: ${APP_ENV:-dev}

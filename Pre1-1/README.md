@@ -1,5 +1,14 @@
 <a id="top"></a>
 
+<!-- 
+**문서 작성 기준**
+
+- 실제 수행한 명령어와 결과를 기준으로 작성.
+- 확인되지 않은 항목은 완료로 표시하지 않음.
+- 실행 결과가 긴 경우 표 안에 넣지 않고 코드 블록으로 작성.
+- 스크린샷은 `docs/evidence/` 디렉터리에 보관하고 해당 항목에 링크를 연결.
+- 개인정보, 인증정보 및 비밀번호는 문서와 스크린샷에서 가리기. -->
+
 # Pre1-1. 개발 워크스테이션 구축
 
 ## 목차
@@ -90,9 +99,16 @@ codyssey_AIO_ruav/
     ├── Dockerfile
     ├── app/
     │   └── index.html
+    ├── bonus/                      # 보너스 과제 (Docker Compose)
+    │   ├── 01-basic/
+    │   │   └── docker-compose.yml  # 단일 서비스
+    │   ├── 02-multi/
+    │   │   └── docker-compose.yml  # 멀티 컨테이너
+    │   └── 03-env/
+    │       └── docker-compose.yml  # 환경변수 활용
     └── docs/
         └── evidence/
-            ├── 01_terminal.png
+            ├── 01_terminal*.png
             ├── 02_permission_*.png
             ├── 03_docker*.png
             ├── 04_container_*.png
@@ -100,7 +116,10 @@ codyssey_AIO_ruav/
             ├── 06_port_mapping_*.png
             ├── 07_bind_mount.png
             ├── 08_volume_*.png
-            └── 09_*.png            # Git/GitHub/VSCode 연동
+            ├── 09_*.png            # Git/GitHub/VSCode 연동
+            ├── 10_*.png            # 트러블슈팅 (Git 오류)
+            ├── 11_git*.png         # SSH 키 연동
+            └── 12_*.png            # Compose / 환경변수
 ```
 
 | 파일 및 폴더          | 역할                           |
@@ -110,6 +129,7 @@ codyssey_AIO_ruav/
 | `app/`           | 웹 서버에서 제공할 HTML 파일 보관        |
 | `app/index.html` | 웹 페이지 기본 파일                  |
 | `docs/evidence/` | 실습 과정 및 결과를 확인할 수 있는 스크린샷 보관 |
+| `bonus/`         | 보너스 과제(Docker Compose) 실습 파일 보관 (`01-basic`, `02-multi`, `03-env`) |
 
 ### 2-3. 설계 기준
 
@@ -118,6 +138,7 @@ codyssey_AIO_ruav/
 - 웹 페이지에 사용되는 파일은 `app/` 디렉터리에서 관리합니다.
 - 실습 과정에서 생성한 스크린샷은 `docs/evidence/`에 보관합니다.
 - 실제 실행 결과와 검증 자료를 기준으로 수행 여부를 기록합니다.
+- 보너스 과제의 Compose 파일은 `bonus/`에서 과제별 폴더로 분리해 관리합니다.
 
 [맨 위로 이동](#top)
 
@@ -138,7 +159,25 @@ codyssey_AIO_ruav/
 | 7 | 포트 매핑 및 웹 서버 접속 | `docker ps`, `curl` | [4-5](#4-5-포트-매핑-및-웹-서버-접속) | [06_port_mapping_8080](docs/evidence/06_port_mapping_8080.png)<br>[06_port_mapping_8081](docs/evidence/06_port_mapping_8081.png) |
 | 8 | Bind Mount 및 Volume | `docker volume`, `docker inspect` | [4-6](#4-6-바인드-마운트-및-볼륨) | [07_bind_mount](docs/evidence/07_bind_mount.png)<br>[08_volume_novol](docs/evidence/08_volume_novol.png)<br>[08_volume_persist](docs/evidence/08_volume_persist.png) |
 | 9 | Git 및 GitHub 연동 | `git status`, `git push` | [4-7](#4-7-git-및-github-연동) | [09_git_config](docs/evidence/09_git_config.png)<br>[09_git_push](docs/evidence/09_git_push.png)<br>[09_vscode_github](docs/evidence/09_vscode_github.png)<br>[09_github_web](docs/evidence/09_github_web.png) |
-*※ 상세 기록 링크는 4번 섹션을 펼친 뒤 이동*
+
+
+## 3. 기능 요구사항
+
+전체 미션 수행 항목과 검증 방법, 상세 기록 및 증거 자료의 위치를 정리합니다.
+
+> ※ 상세 기록 링크는 4번 섹션을 펼친 뒤 이동
+
+| 번호 | 수행 항목 | 주요 검증 명령어 | 상세 | 증거 자료 |
+| :-: | -------- | -------------- | :-: | -------- |
+| 1 | Linux CLI 및 파일 관리 | `pwd`<br>`ls`<br>`mkdir`<br>`touch` | [4-1](#4-1-1-linux-기본-명령어-및-파일-관리) | [01_terminal](docs/evidence/01_terminal.png)<br>[01_terminal2](docs/evidence/01_terminal2.png) |
+| 2 | 파일 및 디렉터리 권한 | `chmod`<br>`ls -l` | [4-1](#4-1-3-linux-파일-및-디렉터리-권한) | [02_permission_file](docs/evidence/02_permission_file.png)<br>[02_permission_dir](docs/evidence/02_permission_dir.png) |
+| 3 | Docker 설치 및 상태 확인 | `docker --version`<br>`docker info` | [4-2](#4-2-1-docker-설치-및-상태-확인) | [03_docker](docs/evidence/03_docker.png) |
+| 4 | Docker 컨테이너 관리 | `docker ps`<br>`docker logs` | [4-2](#4-2-2-docker-이미지컨테이너-목록-로그-자원-확인)<br>[4-2-3](#4-2-3-컨테이너-및-이미지-정리) | [03_docker_cleanup](docs/evidence/03_docker_cleanup.png) |
+| 5 | 컨테이너 실행 | `docker run`<br>`docker exec` | [4-3](#4-3-컨테이너-실행) | [04_container_hello](docs/evidence/04_container_hello.png)<br>[04_container_ubuntu](docs/evidence/04_container_ubuntu.png)<br>[04_container_attach_exec](docs/evidence/04_container_attach_exec.png) |
+| 6 | Dockerfile 및 커스텀 이미지 | `docker build`<br>`docker images` | [4-4](#4-4-dockerfile-및-커스텀-이미지) | [05_web_server_build](docs/evidence/05_web_server_build.png) |
+| 7 | 포트 매핑 및 웹 서버 접속 | `docker ps`<br>`curl` | [4-5](#4-5-포트-매핑-및-웹-서버-접속) | [06_port_mapping_8080](docs/evidence/06_port_mapping_8080.png)<br>[06_port_mapping_8081](docs/evidence/06_port_mapping_8081.png) |
+| 8 | Bind Mount 및 Volume | `docker volume`<br>`docker inspect` | [4-6](#4-6-바인드-마운트-및-볼륨) | [07_bind_mount](docs/evidence/07_bind_mount.png)<br>[08_volume_novol](docs/evidence/08_volume_novol.png)<br>[08_volume_persist](docs/evidence/08_volume_persist.png) |
+| 9 | Git 및 GitHub 연동 | `git status`<br>`git push` | [4-7](#4-7-git-및-github-연동) | [09_git_config](docs/evidence/09_git_config.png)<br>[09_git_push](docs/evidence/09_git_push.png)<br>[09_vscode_github](docs/evidence/09_vscode_github.png)<br>[09_github_web](docs/evidence/09_github_web.png) |
 
 [맨 위로 이동](#top)
 
@@ -155,7 +194,7 @@ codyssey_AIO_ruav/
 
 ---
 <details>
-<summary><h3>👉 클릭하여 4. 수행 내용 및 검증 펼쳐보기</h3></summary>
+<summary><h3>🔽👉 클릭하여 4. 수행 내용 및 검증 펼치기 🔽</h3></summary>
   
 ### 4-1. Linux CLI 및 파일 권한
 
@@ -888,7 +927,7 @@ ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav/Pre1-1$ curl http://localhost:8082
 </html>
 <p>bind mount 수정 확인</p>
 ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav/Pre1-1$ curl http://localhost:8080
-.. 생략 ...
+.. 생략 ..
 ```
 
 ![바인드 마운트 전/후](docs/evidence/07_bind_mount.png)
@@ -987,7 +1026,7 @@ git config --list
 **실행 명령어**
 
 ```bash
-# 프로젝트 최상위 디렉터리로 이동
+# 저장소 최상위 디렉터리로 이동
 cd ~/codyssey_AIO_ruav
 
 # Git 저장소 초기화
@@ -1194,7 +1233,7 @@ Windows 11
 
 **실행 결과**
 
-![GitHub 메일 변경 후 오류](docs/evidence/git_mail_error.png)
+![GitHub 메일 변경 후 오류](docs/evidence/10_git_mail_error.png)
 
 ### 6-3. GitHub 푸시 실패 (Permission denied (publickey))
 
@@ -1208,7 +1247,7 @@ Windows 11
 
 **실행 결과**
 
-![GitHub 푸시 실패](docs/evidence/git_push_error.png)
+![GitHub 푸시 실패](docs/evidence/10_git_push_error.png)
 
 [맨 위로 이동](#top)
 
@@ -1263,6 +1302,7 @@ curl http://localhost:8080
 ```text
 http://localhost:8080
 ```
+> ※ 바인드 마운트·볼륨 재현 명령은 4-6에, 포트 설정을 파일로 문서화한 예(`docker-compose.yml`)는 8-2에 정리했습니다.
 
 ### 7-2. 재현 시 주의사항
 
@@ -1309,39 +1349,336 @@ git config --list
 
 ## 8. 보너스 과제 수행 내용
 
+### 📊 보너스 미션 과제 항목
+
+| 과제 항목 | 수행 여부 | 결과 및 증거 자료 링크 |
+| :--- | :---: | :--- |
+| **SSH 방식 GitHub 연동** | ✅ 완료 | [8-1 바로가기](#8-1-ssh-방식-github-연동) |
+| **Docker Compose 기초** | ✅ 완료 | [8-2 바로가기](#8-2-docker-compose-기초) |
+| **Docker Compose 멀티 컨테이너** | ✅ 완료 | [8-2-3 바로가기](#8-2-3-멀티-컨테이너-실행-실습) |
+| **Docker Compose 운영 명령어 습득** | ✅ 완료 | [8-2-4 바로가기](#8-2-4-운영-명령어-습득-실습) |
+| **환경변수 활용** | ✅ 완료 | [8-3 바로가기](#8-3-환경변수-활용) |
+
 ### 8-1. SSH 방식 GitHub 연동
 
-SSH 키를 생성하고 공개 키를 GitHub에 등록하여 HTTPS 방식과 다른 인증 방법을 학습했습니다.
+SSH 키를 생성하고 공개 키를 GitHub에 등록하여 암호화 기반의 안전한 원격 인증 방법을 학습.
 
-![SSH키 등록 증거1](docs/evidence/git1.png)
-![SSH키 등록 증거2](docs/evidence/git2.png)
-![SSH키 등록 증거3](docs/evidence/git3.png)
+#### 8-1-1. SSH 방식이란?
+SSH(Secure Shell)는 네트워크상의 다른 컴퓨터에 안전하게 접속하기 위해 사용하는 암호화 네트워크 프로토콜입니다. 비밀번호 대신 **비대칭 키 쌍(공개 키와 개인 키)**을 사용하여 인증하므로, 키가 없는 제3자는 통신 내용을 가로채거나 위조할 수 없어 보안성이 매우 높습니다.
 
-### 8-2. Docker Compose
+#### 8-1-2. HTTPS와 SSH 방식의 차이점은?
+GitHub 원격 저장소와 통신할 때 사용하는 두 방식은 **인증 수단**과 **편의성**에서 큰 차이가 있습니다.
 
-여러 컨테이너의 실행 설정을 하나의 YAML 파일로 관리하고 함께 실행하는 방법을 학습합니다.
+| 구분 | HTTPS 방식 | SSH 방식 |
+| :--- | :--- | :--- |
+| **인증 수단** | GitHub 계정 비밀번호 또는 개인 토큰(PAT) | 생성한 SSH 키 쌍 (공개 키 등록) |
+| **인증 빈도** | 토큰 만료 시 재발급 및 재입력 필요 | 최초 1회 등록 후 추가 인증 없이 자동 로그인 |
+| **주요 특징** | 설정이 간편하여 초보자가 접근하기 좋음 | 비밀번호 노출 위험이 없고 자동화 환경에 유리함 |
 
-### 8-3. 환경변수 활용
+**실행 결과**
 
-Docker 컨테이너 실행 시 환경변수를 전달하고 애플리케이션에서 사용하는 방법을 학습합니다.
+![SSH키 등록 증거1](docs/evidence/11_git1.png)
+![SSH키 등록 증거2](docs/evidence/11_git2.png)
+![SSH키 등록 증거3](docs/evidence/11_git3.png)
 
-### 8-4. 추가 실습 기록
+**확인 내용**
 
-| 과제               | 수행 여부 | 결과 및 증거 자료   |
-| ---------------- | ----- | ------------ |
-| SSH 방식 GitHub 연동 | [ ]   | [기록 및 링크 입력] |
-| Docker Compose   | [ ]   | [기록 및 링크 입력] |
-| 환경변수 활용          | [ ]   | [기록 및 링크 입력] |
+- SSH 키를 GitHub에 등록한 뒤 `ssh -T git@github.com`으로 인증 성공을 확인했다.
+- 원격 주소를 SSH(`git@github.com:…`)로 바꿔 `git push`가 성공했다. (4-7-3, 6-3 참고)
 
 ---
 
-**문서 작성 기준**
+### 8-2. Docker Compose 기초
 
-- 실제 수행한 명령어와 결과를 기준으로 작성합니다.
-- 확인되지 않은 항목은 완료로 표시하지 않습니다.
-- 실행 결과가 긴 경우 표 안에 넣지 않고 코드 블록으로 작성합니다.
-- 스크린샷은 `docs/evidence/` 디렉터리에 보관하고 해당 항목에 링크를 연결합니다.
-- 개인정보, 인증정보 및 비밀번호는 문서와 스크린샷에서 가립니다.
+여러 컨테이너의 실행 설정을 하나의 YAML 파일로 관리하고 함께 실행하는 방법을 학습. 
+
+#### 8-2-1. Docker Compose란?
+
+복잡한 명령어 없이 파일 한 장으로 누구나 동일한 다중 컨테이너 환경을 손쉽게 생성하고 재현할 수 있습니다.
+
+![Compose 개념 이해 만화](docs/evidence/12_compose_means.png)
+
+#### 8-2-2. 단일 서비스 실행 실습
+
+**수행 목적**
+
+`docker-compose.yml` 파일을 작성하고 Docker Compose 명령어로 단일 웹 서버 서비스를 실행, 접속 검증 및 관리하는 과정을 익힘.
+
+**실행 명령어**
+
+```bash
+cd ~/codyssey_AIO_ruav/Pre1-1
+mkdir -p bonus/01-basic && cd bonus/01-basic
+
+cat > docker-compose.yml << 'EOF'       # 설정 파일 작성
+services:
+  web:
+    image: my-custom-nginx:1.0
+    ports:
+      - "8090:80"
+EOF
+
+docker compose up -d                    # 백그라운드로 서비스 실행
+docker compose ps                       # 실행 중인 서비스 상태 확인
+curl http://localhost:8090              # 웹 서버 접속 확인
+docker compose down                     # 서비스 중지 및 컨테이너 삭제
+```
+
+**실행 결과**
+
+![Compose 실습 증거](docs/evidence/12_compose_test.png)
+
+**확인 내용**
+
+- `bonus/01-basic` 경로에서 `docker compose up -d` 명령어 하나로 yml 파일에 정의된 포트 매핑(8090:80) 및 웹 서버 컨테이너가 정상 구동되었다.
+- `docker compose down` 실행 시 컨테이너가 안전하게 자동 종료 및 삭제 처리됨을 확인했다.
+- `.yml` 파일 작성 시 탭(Tab) 키 대신 공백(띄어쓰기) 2칸 단위를 사용해 올바른 들여쓰기 규칙이 적용되도록 주의하여 검증했다.
+
+---
+
+#### 8-2-3. 멀티 컨테이너 실행 실습
+
+**수행 목적**
+
+단일 `docker-compose.yml` 파일에 웹 서버(`web`)와 도우미 서버(`backend`) 서비스를 함께 정의하여 다중 컨테이너 환경의 독립 네트워크 통신(서비스 디스커버리) 개념을 익힘.
+
+![Compose 멀티 컨테이너 개념 이해](docs/evidence/12_multi_compose.png)
+
+
+**실행 명령어**
+
+```bash
+cd ~/codyssey_AIO_ruav/Pre1-1
+mkdir -p bonus/02-multi && cd bonus/02-multi
+
+cat > docker-compose.yml << 'EOF'       # 다중 서비스 설정 파일 작성
+services:
+  web:
+    image: my-custom-nginx:1.0
+    ports:
+      - "8091:80"
+  backend:
+    image: nginx:alpine
+EOF
+
+docker compose up -d                    # 다중 서비스 백그라운드 실행
+docker compose ps                       # 컨테이너 구동 상태 및 포트 개방 여부 확인
+
+# 내부 네트워크 통신 검증 (web 컨테이너 안에서 backend 이름으로 호출)
+docker compose exec web wget -qO- http://backend
+
+# 외부 네트워크 통신 검증 (호스트에서 오픈된 포트로 web 호출)
+curl http://localhost:8091
+```
+
+**실행 결과**
+
+```text
+ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav/Pre1-1/bonus/02-multi$ docker compose up -d
+[+] up 14/14
+ ✔ Image nginx:alpine           Pulled                                                                           5.6s
+ ✔ Network 02-multi_default     Created                                                                          0.1s
+ ✔ Container 02-multi-web-1     Started                                                                          0.6s
+ ✔ Container 02-multi-backend-1 Started                                                                          0.8s
+ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav/Pre1-1/bonus/02-multi$ docker compose ps
+NAME                 IMAGE                 COMMAND                  SERVICE   CREATED          STATUS          PORTS
+02-multi-backend-1   nginx:alpine          "/docker-entrypoint.…"   backend   40 seconds ago   Up 38 seconds   80/tcp
+02-multi-web-1       my-custom-nginx:1.0   "/docker-entrypoint.…"   web       40 seconds ago   Up 38 seconds   0.0.0.0:8091->80/tcp, [::]:8091->80/tcp
+ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav/Pre1-1/bonus/02-multi$ docker compose exec web wget -qO- http://backend
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+.. 생략 ..
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, nginx is successfully installed and working.</p>
+.. 생략 ..
+</html>
+ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav/Pre1-1/bonus/02-multi$ curl http://localhost:8091
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>My Custom Nginx</title>
+</head>
+<body>
+    <h1>Hello, Docker!</h1>
+    <p>My Custom Nginx Web Server</p>
+</body>
+</html>
+```
+
+![멀티 Compose 실습 증거](docs/evidence/12_multi_compose_test.png)
+
+**확인 내용**
+
+- `docker compose ps`에서 `backend`는 호스트 포트 매핑 없이 `80/tcp`만 표시되어, `ports`를 지정하지 않은 컨테이너는 호스트에서 직접 접근할 수 없는 구조임을 확인했다.
+- 같은 Compose 파일로 묶인 컨테이너들은 IP 주소 없이 서비스 이름(`http://backend`)만으로 서로 통신할 수 있다. `web` 컨테이너 안에서 `wget -qO- http://backend`를 실행해 backend의 nginx 기본 페이지가 응답되는 것을 확인했다. (서비스 디스커버리)
+- 호스트 포트(8091)와 매핑된 `web` 컨테이너는 호스트에서 `curl http://localhost:8091`로 접속해 커스텀 페이지(`Hello, Docker!`)가 응답되는 것을 확인했다.
+
+---
+
+#### 8-2-4. 운영 명령어 습득 실습
+
+**수행 목적**
+
+Docker Compose의 핵심 명령어(`up`, `ps`, `logs`, `down`)로 다중 컨테이너를 쉽게 켜고 관리하며, 문제 발생 시 대처하는 '상태 확인 루틴'을 익힘.
+
+![Docker Compose 운영 명령어 및 상태 확인 루틴 개념 이해](docs/evidence/12_compose_operations.png)
+
+**실행 명령어**
+
+> ※ 이전 멀티 컨테이너 실행 실습을 진행했던 디렉토리(`~/codyssey_AIO_ruav/Pre1-1/bonus/02-multi`)에서 이어서 실습을 진행함. 
+
+```bash
+docker compose up -d                  # 멀티 컨테이너 백그라운드 실행 (켜기)
+docker compose ps                     # 현재 구동 중인 컨테이너 목록 및 포트 상태 확인 (보기)
+docker compose logs --tail 10         # 컨테이너별 최근 실행 로그 10줄만 추출하여 확인 (기록 보기)
+docker compose down                   # 컨테이너 중지 및 관련 네트워크 리소스 정리 (끄고 정리하기)
+docker compose ps                     # 정리 완료 여부 최종 확인
+```
+
+**실행 결과**
+
+```text
+ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav/Pre1-1/bonus/02-multi$ docker compose ps
+NAME                 IMAGE                 COMMAND                  SERVICE   CREATED          STATUS          PORTS
+02-multi-backend-1   nginx:alpine          "/docker-entrypoint...."   backend   31 seconds ago   Up 30 seconds   80/tcp
+02-multi-web-1       my-custom-nginx:1.0   "/docker-entrypoint...."   web       31 seconds ago   Up 30 seconds   0.0.0.0:8091->80/tcp, [::]:8091->80/tcp
+ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav/Pre1-1/bonus/02-multi$ docker compose logs --tail 10
+web-1     | 2026/11/07 11:43:10 [notice] 1#1: start worker process 37
+web-1     | 2026/11/07 11:43:10 [notice] 1#1: start worker process 38
+web-1     | 2026/11/07 11:43:10 [notice] 1#1: start worker process 39
+web-1     | 2026/11/07 11:43:10 [notice] 1#1: start worker process 40
+web-1     | 2026/11/07 11:43:10 [notice] 1#1: start worker process 41
+web-1     | 2026/11/07 11:43:10 [notice] 1#1: start worker process 42
+web-1     | 2026/11/07 11:43:10 [notice] 1#1: start worker process 43
+web-1     | 2026/11/07 11:43:10 [notice] 1#1: start worker process 44
+web-1     | 2026/11/07 11:43:10 [notice] 1#1: start worker process 45
+web-1     | 172.18.0.1 - - [07/Nov/2026:11:43:30 +0000] "GET / HTTP/1.1" 200 274 "-" "curl/8.5.0" "-"
+backend-1 | 2026/11/07 11:43:11 [notice] 1#1: start worker process 37
+backend-1 | 2026/11/07 11:43:11 [notice] 1#1: start worker process 38
+backend-1 | 2026/11/07 11:43:11 [notice] 1#1: start worker process 39
+backend-1 | 2026/11/07 11:43:11 [notice] 1#1: start worker process 40
+backend-1 | 2026/11/07 11:43:11 [notice] 1#1: start worker process 41
+backend-1 | 2026/11/07 11:43:11 [notice] 1#1: start worker process 42
+backend-1 | 2026/11/07 11:43:11 [notice] 1#1: start worker process 43
+backend-1 | 2026/11/07 11:43:11 [notice] 1#1: start worker process 44
+backend-1 | 2026/11/07 11:43:11 [notice] 1#1: start worker process 45
+backend-1 | 172.18.0.2 - - [07/Nov/2026:11:43:23 +0000] "GET / HTTP/1.1" 200 896 "-" "Wget" "-"
+ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav/Pre1-1/bonus/02-multi$ docker compose down
+[+] down 3/3
+ ✔ Container 02-multi-web-1     Removed 0.3s
+ ✔ Container 02-multi-backend-1 Removed 0.4s
+ ✔ Network 02-multi_default     Removed 0.2s
+ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav/Pre1-1/bonus/02-multi$ docker compose ps
+NAME IMAGE COMMAND SERVICE CREATED STATUS PORTS
+```
+
+![Compose 명령어 실습 증거](docs/evidence/12_compose_operations_test.png)
+
+**확인 내용**
+
+- `docker compose up -d` 명령어로 백그라운드에서 web과 backend 컨테이너가 동시에 구동됨을 확인했다.
+- `docker compose ps` 및 `logs --tail 10`를 통해 각 컨테이너의 구동 상태와 최근 남겨진 기록(로그)을 확인했다.
+- `docker compose down` 실행 시 생성되었던 컨테이너들과 내부 네트워크 가상 환경(02-multi_default)이 안전하게 중지 및 삭제되어 정리되는 과정을 확인했다.
+- 문제가 생겼을 때 `① ps (상태 확인) → ② logs (기록 확인) → ③ curl/wget (접속 확인)` 순서로 추적하는 `'상태 확인 루틴'`의 올바른 확인 습관을 습득했다.
+
+---
+
+### 8-3. 환경변수 활용
+
+Docker 컨테이너 실행 시 환경변수를 전달하고 애플리케이션에서 독립적으로 제어하는 방법을 학습.
+
+#### 8-3-1. 환경변수 주입 실습
+
+**수행 목적**
+
+`docker-compose.yml` 파일에 외부 옵션 값을 받을 수 있는 칸을 만들고, 파일 내용을 직접 고치지 않고도 명령어 앞에 붙이는 값에 따라 포트 번호와 실행 모드가 실시간으로 바뀌는 '설정과 코드의 분리' 방법을 익힘.
+
+<!-- 환경변수 활용 개념 이해 증거 이미지 삽입 예정 -->
+
+**실행 명령어**
+
+```bash
+cd ~/codyssey_AIO_ruav/Pre1-1
+mkdir -p bonus/03-env && cd bonus/03-env
+
+cat > docker-compose.yml << 'EOF'       # 동적 환경변수 설정 파일 작성
+services:
+  web:
+    image: my-custom-nginx:1.0
+    ports:
+      - "${WEB_PORT:-8092}:80"
+    environment:
+      APP_ENV: ${APP_ENV:-dev}
+EOF
+
+# 1) 외부 주입 값 없이 기본값으로 실행 테스트
+docker compose up -d
+docker compose ps                               # 포트 8092 확인
+docker compose exec web printenv APP_ENV        # env 값 'dev' 확인
+docker compose down
+
+# 2) 파일 수정 없이 외부 환경변수 값을 변경하여 실행 테스트
+WEB_PORT=8093 APP_ENV=prod docker compose up -d
+docker compose ps                               # 포트 8093 변경 확인
+docker compose exec web printenv APP_ENV        # env 값 'prod' 변경 확인
+curl http://localhost:8093                       # 변경된 포트로 외부 접속 확인
+docker compose down
+```
+
+**실행 결과**
+
+```text
+ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav/Pre1-1/bonus/03-env$ docker compose up -d
+[+] up 2/2
+ ✔ Network 03-env_default Created                                                                                    0.2s
+ ✔ Container 03-env-web-1 Started                                                                                    1.0s
+ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav/Pre1-1/bonus/03-env$ docker compose ps
+NAME           IMAGE                 COMMAND                  SERVICE   CREATED         STATUS         PORTS
+03-env-web-1   my-custom-nginx:1.0   "/docker-entrypoint.…"   web       5 seconds ago   Up 4 seconds   0.0.0.0:8092->80/tcp, [::]:8092->80/tcp
+ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav/Pre1-1/bonus/03-env$ docker compose exec web printenv APP_ENV
+dev
+ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav/Pre1-1/bonus/03-env$ docker compose down
+[+] down 2/2
+ ✔ Container 03-env-web-1 Removed                                                                                    0.5s
+ ✔ Network 03-env_default Removed
+
+ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav/Pre1-1/bonus/03-env$ WEB_PORT=8093 APP_ENV=prod docker compose up -d
+[+] up 2/2
+ ✔ Network 03-env_default Created                                                                                    0.1s
+ ✔ Container 03-env-web-1 Started                                                                                    0.7s
+ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav/Pre1-1/bonus/03-env$ docker compose ps
+NAME           IMAGE                 COMMAND                  SERVICE   CREATED         STATUS         PORTS
+03-env-web-1   my-custom-nginx:1.0   "/docker-entrypoint.…"   web       5 seconds ago   Up 4 seconds   0.0.0.0:8093->80/tcp, [::]:8093->80/tcp
+ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav/Pre1-1/bonus/03-env$ docker compose exec web printenv APP_ENV
+prod
+ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav/Pre1-1/bonus/03-env$ curl http://localhost:8093
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>My Custom Nginx</title>
+</head>
+<body>
+    <h1>Hello, Docker!</h1>
+    <p>My Custom Nginx Web Server</p>
+</body>
+</html>
+ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav/Pre1-1/bonus/03-env$ docker compose down
+[+] down 2/2
+ ✔ Container 03-env-web-1 Removed                                                                                    0.6s
+ ✔ Network 03-env_default Removed
+```
+
+![Compose 환경변수 실습 증거](docs/evidence/12_compose_env_test.png)
+
+**확인 내용**
+
+- `${변수명:-기본값}` 문법 구조를 활용하여 외부에서 값이 들어오지 않을 경우 야기되는 예외 상황에 유연한 디폴트 옵션(8092, dev)이 올바르게 지정됨을 확인했다.
+- `docker-compose.yml` 원본 파일에 직접적인 코드 수정 행위를 가하지 않고, 명령어 앞단에 환경변수 주입 선언문(`WEB_PORT=8093 APP_ENV=prod`)을 덧붙이는 것만으로 포트와 구동 모드가 동적으로 일괄 변환되는 것을 검증했다.
+- 소스코드로 명명되는 파일 영역과 유동적인 인프라 환경 매개변수를 바깥으로 완벽히 분리 처리함으로써, 단일 컴포즈 명세서를 기반으로 개발용(dev)과 운영용(prod) 서버 환경을 독립적이고 유연하게 확장 전개할 수 있음을 확인했다.
 
 [맨 위로 이동](#top)
 
@@ -1359,6 +1696,8 @@ Dockerfile을 직접 작성하여 사용자 정의 이미지를 생성하고, �
 
 Bind Mount와 Volume 실습을 통해 컨테이너와 데이터를 분리하여 관리하는 방식의 차이를 이해했으며, Git과 GitHub를 연동하여 프로젝트 변경 사항을 관리하는 기본 흐름을 학습했습니다.
 
+보너스 과제로 SSH 연동, Docker Compose, 환경변수 활용도 실습했습니다.
+
 ### 9-2. 어려웠던 점과 해결 과정
 
 가장 어려웠던 지점은 GitHub 푸시 실패(6-3)였습니다. SSH 키를 등록했는데도 `Permission denied (publickey)`와 `Internal Server Error`가 번갈아 발생했습니다.
@@ -1371,7 +1710,7 @@ Bind Mount와 Volume 실습을 통해 컨테이너와 데이터를 분리하여 
 - Docker 이미지 및 컨테이너 관리 명령어 반복 실습
 - Docker Volume과 Bind Mount의 활용 방법 추가 학습
 - Git 브랜치 및 협업을 위한 버전 관리 학습
-- Docker Compose를 활용한 다중 컨테이너 관리 학습
+- Docker Compose를 활용한 심화(볼륨·네트워크 설정, .env 파일 활용) 학습
 
 [맨 위로 이동](#top)
 
