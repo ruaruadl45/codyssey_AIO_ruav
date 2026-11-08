@@ -1590,7 +1590,7 @@ Docker 컨테이너 실행 시 환경변수를 전달하고 애플리케이션�
 
 `docker-compose.yml` 파일에 외부 옵션 값을 받을 수 있는 칸을 만들고, 파일 내용을 직접 고치지 않고도 명령어 앞에 붙이는 값에 따라 포트 번호와 실행 모드가 실시간으로 바뀌는 '설정과 코드의 분리' 방법을 익힘.
 
-![Compose 환경변수 설정 실습](docs/evidence/12_compose_env_guide.png)
+![Compose 환경변수 개념 이해](docs/evidence/12_compose_env.png)
 
 **실행 명령어**
 
