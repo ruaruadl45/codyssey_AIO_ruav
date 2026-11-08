@@ -57,7 +57,7 @@
 | 버전 관리/저장소     | Git 2.43.0 / GitHub              |
 
 > ⚠️ 환경 주의
-> - 출력에 보이는 `/Users/ruav/codyssey_AIO_ruav`는 작성자 PC 경로. 각자 저장소를 내려받은 위치로 바꿔 읽기.
+> - 출력에 보이는 `/home/ruav/codyssey_AIO_ruav`는 작성자 PC 경로. 각자 저장소를 내려받은 위치로 바꿔 읽기.
 > - Docker 빌드·실행 실습(4-4~4-6)은 `codyssey_AIO_ruav/Pre1-1`에서 시작.
 
 ### 1-3. 수행 항목 체크리스트 
@@ -85,7 +85,7 @@
 | --------- | -------------------------------------------------------------------------------------------------- |
 | 저장소 이름    | `codyssey_AIO_ruav`                                                                                |
 | 저장소 주소    | [https://github.com/ruaruadl45/codyssey_AIO_ruav](https://github.com/ruaruadl45/codyssey_AIO_ruav) |
-| 주요 관리 파일  | README.md, Dockerfile, app/, docs/evidence/                                                            |
+| 주요 관리 파일  | README.md, Dockerfile, app/, docs/evidence/, bonus/                                                            |
 
 ### 2-2. 프로젝트 디렉터리 구조
 
@@ -139,6 +139,8 @@ codyssey_AIO_ruav/
 - 실습 과정에서 생성한 스크린샷은 `docs/evidence/`에 보관합니다.
 - 실제 실행 결과와 검증 자료를 기준으로 수행 여부를 기록합니다.
 - 보너스 과제의 Compose 파일은 `bonus/`에서 과제별 폴더로 분리해 관리합니다.
+- 디렉터리 구성 기준: 미션 단위 폴더(`Pre1-1`) 안에서 소스(`app/`), 이미지 설정(`Dockerfile`), 선택 과제(`bonus/`), 증거(`docs/evidence/`)를 역할별로 분리해, README 링크만으로 각 산출물을 찾을 수 있게 했습니다.
+- 재현 방식: 포트·볼륨 설정은 실행 명령어(`-p 8080:80`, `-v mydata:/data`)를 README에 그대로 기록했고(4-5, 4-6, 7-1), 보너스에서는 같은 설정을 `docker-compose.yml` 파일로 남겨(8-2) 누구나 동일하게 다시 실행할 수 있게 했습니다.
 
 [맨 위로 이동](#top)
 
@@ -146,38 +148,23 @@ codyssey_AIO_ruav/
 
 ## 3. 기능 요구사항
 
-전체 미션 수행 항목과 검증 방법, 상세 기록 및 증거 자료의 위치를 정리합니다.
-
-| 번호 | 수행 항목                  | 주요 검증 명령어                         | 상세 기록                            | 증거 자료        |
-| -- | ---------------------- | --------------------------------- | -------------------------------- | ------------ |
-| 1 | Linux CLI 및 파일 관리 | `pwd`, `ls`, `mkdir`, `touch` | [4-1](#4-1-1-linux-기본-명령어-및-파일-관리) | [01_terminal](docs/evidence/01_terminal.png)<br>[01_terminal2](docs/evidence/01_terminal2.png) |
-| 2 | 파일 및 디렉터리 권한 | `chmod`, `ls -l` | [4-1](#4-1-3-linux-파일-및-디렉터리-권한) | [02_permission_file](docs/evidence/02_permission_file.png)<br>[02_permission_dir](docs/evidence/02_permission_dir.png) |
-| 3 | Docker 설치 및 상태 확인 | `docker --version`, `docker info` | [4-2](#4-2-1-docker-설치-및-상태-확인) | [03_docker](docs/evidence/03_docker.png) |
-| 4 | Docker 컨테이너 관리 | `docker ps`, `docker logs` | [4-2](#4-2-2-docker-이미지컨테이너-목록-로그-자원-확인) <br>[4-2-3](#4-2-3-컨테이너-및-이미지-정리) | [03_docker_cleanup](docs/evidence/03_docker_cleanup.png) |
-| 5 | 컨테이너 실행 | `docker run`, `docker exec` | [4-3](#4-3-컨테이너-실행) | [04_container_hello](docs/evidence/04_container_hello.png)<br>[04_container_ubuntu](docs/evidence/04_container_ubuntu.png)<br>[04_container_attach_exec](docs/evidence/04_container_attach_exec.png) |
-| 6 | Dockerfile 및 커스텀 이미지 | `docker build`, `docker images` | [4-4](#4-4-dockerfile-및-커스텀-이미지) | [05_web_server_build](docs/evidence/05_web_server_build.png) |
-| 7 | 포트 매핑 및 웹 서버 접속 | `docker ps`, `curl` | [4-5](#4-5-포트-매핑-및-웹-서버-접속) | [06_port_mapping_8080](docs/evidence/06_port_mapping_8080.png)<br>[06_port_mapping_8081](docs/evidence/06_port_mapping_8081.png) |
-| 8 | Bind Mount 및 Volume | `docker volume`, `docker inspect` | [4-6](#4-6-바인드-마운트-및-볼륨) | [07_bind_mount](docs/evidence/07_bind_mount.png)<br>[08_volume_novol](docs/evidence/08_volume_novol.png)<br>[08_volume_persist](docs/evidence/08_volume_persist.png) |
-| 9 | Git 및 GitHub 연동 | `git status`, `git push` | [4-7](#4-7-git-및-github-연동) | [09_git_config](docs/evidence/09_git_config.png)<br>[09_git_push](docs/evidence/09_git_push.png)<br>[09_vscode_github](docs/evidence/09_vscode_github.png)<br>[09_github_web](docs/evidence/09_github_web.png) |
-
-
-## 3. 기능 요구사항
-
-전체 미션 수행 항목과 검증 방법, 상세 기록 및 증거 자료의 위치를 정리합니다.
+필수 미션 수행 항목과 검증 방법, 상세 기록 및 증거 자료의 위치를 정리합니다.
 
 > ※ 상세 기록 링크는 4번 섹션을 펼친 뒤 이동
+>
+> 보너스 과제(선택)는 [8장](#8-보너스-과제-수행-내용)에서 별도로 정리
 
 | 번호 | 수행 항목 | 주요 검증 명령어 | 상세 | 증거 자료 |
 | :-: | -------- | -------------- | :-: | -------- |
 | 1 | Linux CLI 및 파일 관리 | `pwd`<br>`ls`<br>`mkdir`<br>`touch` | [4-1](#4-1-1-linux-기본-명령어-및-파일-관리) | [01_terminal](docs/evidence/01_terminal.png)<br>[01_terminal2](docs/evidence/01_terminal2.png) |
 | 2 | 파일 및 디렉터리 권한 | `chmod`<br>`ls -l` | [4-1](#4-1-3-linux-파일-및-디렉터리-권한) | [02_permission_file](docs/evidence/02_permission_file.png)<br>[02_permission_dir](docs/evidence/02_permission_dir.png) |
 | 3 | Docker 설치 및 상태 확인 | `docker --version`<br>`docker info` | [4-2](#4-2-1-docker-설치-및-상태-확인) | [03_docker](docs/evidence/03_docker.png) |
-| 4 | Docker 컨테이너 관리 | `docker ps`<br>`docker logs` | [4-2](#4-2-2-docker-이미지컨테이너-목록-로그-자원-확인)<br>[4-2-3](#4-2-3-컨테이너-및-이미지-정리) | [03_docker_cleanup](docs/evidence/03_docker_cleanup.png) |
+| 4 | Docker 컨테이너 관리 | `docker ps`<br>`docker logs` | [4-2](#4-2-2-docker-이미지컨테이너-목록-로그-자원-확인) | [03_docker_cleanup](docs/evidence/03_docker_cleanup.png) |
 | 5 | 컨테이너 실행 | `docker run`<br>`docker exec` | [4-3](#4-3-컨테이너-실행) | [04_container_hello](docs/evidence/04_container_hello.png)<br>[04_container_ubuntu](docs/evidence/04_container_ubuntu.png)<br>[04_container_attach_exec](docs/evidence/04_container_attach_exec.png) |
 | 6 | Dockerfile 및 커스텀 이미지 | `docker build`<br>`docker images` | [4-4](#4-4-dockerfile-및-커스텀-이미지) | [05_web_server_build](docs/evidence/05_web_server_build.png) |
 | 7 | 포트 매핑 및 웹 서버 접속 | `docker ps`<br>`curl` | [4-5](#4-5-포트-매핑-및-웹-서버-접속) | [06_port_mapping_8080](docs/evidence/06_port_mapping_8080.png)<br>[06_port_mapping_8081](docs/evidence/06_port_mapping_8081.png) |
-| 8 | Bind Mount 및 Volume | `docker volume`<br>`docker inspect` | [4-6](#4-6-바인드-마운트-및-볼륨) | [07_bind_mount](docs/evidence/07_bind_mount.png)<br>[08_volume_novol](docs/evidence/08_volume_novol.png)<br>[08_volume_persist](docs/evidence/08_volume_persist.png) |
-| 9 | Git 및 GitHub 연동 | `git status`<br>`git push` | [4-7](#4-7-git-및-github-연동) | [09_git_config](docs/evidence/09_git_config.png)<br>[09_git_push](docs/evidence/09_git_push.png)<br>[09_vscode_github](docs/evidence/09_vscode_github.png)<br>[09_github_web](docs/evidence/09_github_web.png) |
+| 8 | Bind Mount 및 Volume | `docker volume`<br>`docker volume inspect` | [4-6](#4-6-바인드-마운트-및-볼륨) | [07_bind_mount](docs/evidence/07_bind_mount.png)<br>[08_volume_novol](docs/evidence/08_volume_novol.png)<br>[08_volume_persist](docs/evidence/08_volume_persist.png) |
+| 9 | Git 및 GitHub 연동 | `git config --list`<br>`git status`<br>`git push` | [4-7](#4-7-git-및-github-연동) | [09_git_config](docs/evidence/09_git_config.png)<br>[09_git_push](docs/evidence/09_git_push.png)<br>[09_vscode_github](docs/evidence/09_vscode_github.png)<br>[09_github_web](docs/evidence/09_github_web.png) |
 
 [맨 위로 이동](#top)
 
@@ -264,7 +251,7 @@ drwxr-x--- 8 ruav ruav 4096 Nov  4 15:57 ..
 **확인 내용**
 
 - 파일/디렉터리의 생성, 복사, 이름 변경, 삭제가 `ls -la` 목록에 그대로 반영되었다.
-- `ls -la`에서 `.`으로 시작하는 숨김 파일을 확인했다.
+- `ls -la`는 `.`으로 시작하는 숨김 항목까지 표시하는 명령로, 이번 `practice` 디렉터리에는 숨김 파일이 없어 `.`(현재)과 `..`(상위)만 확인됩니다.
 
 #### 4-1-2. 절대 경로와 상대 경로
 
@@ -314,7 +301,7 @@ ruav@DESKTOP-JCSRKLA:~$ pwd
 
 - 절대 경로는 현재 위치와 관계없이 같은 파일을 가리키고, 상대 경로는 현재 위치에 따라 가리키는 대상이 달라진다.
 - `.`은 현재 디렉터리, `..`은 상위 디렉터리, `~`는 홈 디렉터리를 뜻한다.
-- 항상 같은 대상을 가리켜야 할 때(-v "$(pwd)/app:..." 같은 마운트 경로, 스크립트)는 절대 경로를, 프로젝트 안에서 위치를 옮겨도 동작해야 할 때(COPY app/ ...)는 상대 경로를 사용한다.
+- 항상 같은 대상을 가리켜야 할 때(`-v "$(pwd)/app:..."` 같은 마운트 경로, 스크립트)는 절대 경로를, 프로젝트 안에서 위치를 옮겨도 동작해야 할 때(`COPY app/ ...`)는 상대 경로를 사용한다.
 
 #### 4-1-3. Linux 파일 및 디렉터리 권한
 
@@ -435,7 +422,7 @@ Client:
 
 **확인 내용**
 
-- `docker --version`으로 설치된 버전을 확인했다.
+- `docker --version`으로 설치된 버전을 확인했습니다.
 - `docker info`에 서버(데몬) 정보가 출력되므로 Docker 엔진이 동작 중이다.
 
 #### 4-2-2. Docker 이미지·컨테이너 목록, 로그, 자원 확인
@@ -488,7 +475,7 @@ dd00c8013b01   ubuntu-test   0.00%     10.64MiB / 7.601GiB   0.14%     1.34kB / 
 **확인 내용**
 
 - `docker ps`는 실행 중인 컨테이너만, `docker ps -a`는 `Exited` 상태까지 보여 준다.
-- `docker logs`에서 `hello-world` 실행 로그를, `docker stats`에서 컨테이너별 자원 사용량을 확인했다.
+- `docker logs`에서 `hello-world` 실행 로그를, `docker stats`에서 컨테이너별 자원 사용량을 확인했습니다.
 
 #### 4-2-3. 컨테이너 및 이미지 정리
 
@@ -532,13 +519,15 @@ ubuntu:latest   6a06111c3b0a        163MB         45.9MB
 
 - 실행 중인 컨테이너는 `stop` 후 `rm`으로 삭제한다.
 - `docker rm`(컨테이너)과 `docker rmi`(이미지)는 서로 다른 작업이다.
-- 이미지·컨테이너를 정리했으므로 4-4에서 재빌드, 4-5에서 재실행
+- 이미지·컨테이너를 정리했으므로 4-4절에서 재빌드, 4-5절에서 재실행
 
 ---
 
 ### 4-3. 컨테이너 실행
 
 #### 4-3-1. hello-world 컨테이너 실행
+
+> ※ 4-2의 점검·정리는 실습을 한 차례 진행한 뒤 수행했으며, 정리 후 4-3부터 다시 실행했습니다. 그래서 컨테이너 이름·ID와 이미지 ID가 4-2 출력과 다릅니다.
 
 **수행 목적**
 
@@ -739,6 +728,7 @@ cat Dockerfile
 | `LABEL` | 이미지 이름 정보를 메타데이터로 기록 |
 | `ENV APP_ENV=dev` | 실행 모드를 환경변수로 분리 (설정과 코드 분리) |
 | `COPY app/ ...` | 직접 만든 HTML을 Nginx 웹 루트로 복사 |
+| `EXPOSE 80` | 컨테이너가 사용하는 포트(80)를 선언 (호스트 접속은 `-p` 매핑 필요) |
 
 #### 4-4-2. 이미지 빌드 및 검증
 
@@ -865,7 +855,7 @@ ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav/Pre1-1$ curl http://localhost:8080
 
 - `-p 호스트:컨테이너`로 연결하면 호스트에서 컨테이너 내부 Nginx에 접속할 수 있고, `docker ps`의 `0.0.0.0:8080->80/tcp`로 연결 상태를 확인한다.
 - 컨테이너 내부 포트는 둘 다 80이지만 호스트 포트를 다르게 해 동시에 접속할 수 있다.
-- `-p` 없이 실행한 컨테이너는 호스트에서 접속되지 않는다. (포트 매핑이 필요한 이유 : 5번에서 설명)
+- `-p` 없이 실행한 컨테이너는 호스트에서 접속되지 않는다. (포트 매핑이 필요한 이유 : 5-5절에서 설명)
 
 ---
 
@@ -1080,7 +1070,7 @@ git push -u origin main
 | `git push`      | 로컬 저장소의 변경 사항을 원격 저장소에 업로드 |
 | `git remote -v` | 원격 저장소 주소 확인               |
 
-- `git add`(스테이징) → `git commit`(로컬 기록) → `git push`(원격 전송) 순서로 업로드했다.
+- `git add`(스테이징) → `git commit`(로컬 기록) → `git push`(원격 전송) 순서로 업로드했습니다.
 - Git과 GitHub의 차이는 [5. 핵심 개념 정리](#5-핵심-개념-정리)에서 설명한다.
 
 #### 4-7-4. VSCode 연동 및 업로드 확인
@@ -1123,6 +1113,7 @@ VSCode 왼쪽 아래 계정 아이콘에서 GitHub에 로그인한 뒤 Source Co
 - 절대 경로: 최상위 디렉터리부터 시작하는 전체 경로
 - 상대 경로: 현재 작업 위치를 기준으로 지정하는 경로
 - 홈 디렉터리: 사용자별 기본 작업 공간
+- 선택 기준: 실행 위치와 관계없이 항상 같은 대상을 가리켜야 하면(마운트 경로, 스크립트) 절대 경로를, 프로젝트 안에서 위치를 옮겨도 동작해야 하면(`COPY app/ ...`) 상대 경로를 사용합니다. 실습 결과는 [4-1-2](#4-1-2-절대-경로와-상대-경로)를 참고하세요. (4장을 펼친 뒤 이동)
 
 ### 5-2. Linux 파일 권한
 
@@ -1185,7 +1176,7 @@ Windows 11
 
 호스트와 컨테이너 내부의 포트를 연결하여 외부에서 컨테이너의 서비스에 접근할 수 있도록 하는 기능입니다.
 
-컨테이너는 호스트와 분리된 자체 네트워크에서 실행되므로, 호스트(브라우저, `curl`)에서 컨테이너 내부 포트(80)로 직접 접속할 수 없습니다. 그래서 `-p 호스트포트:컨테이너포트`로 연결해야 접속할 수 있습니다. 실제로 `-p` 없이 실행한 `no-port` 컨테이너는 `curl http://localhost:80`이 실패했습니다. (4-5 참고)
+컨테이너는 호스트와 분리된 자체 네트워크에서 실행되므로, 호스트(브라우저, `curl`)의 `localhost:80`으로는 컨테이너 내부 포트(80)로 직접 접속할 수 없습니다. 그래서 `-p 호스트포트:컨테이너포트`로 연결해야 접속할 수 있습니다. 실제로 `-p` 없이 실행한 `no-port` 컨테이너는 `curl http://localhost:80`이 실패했습니다. (4-5 참고)
 
 예를 들어 `-p 8080:80`은 호스트의 8080 포트를 컨테이너의 80 포트에 연결합니다.
 
@@ -1216,10 +1207,10 @@ Windows 11
 | 구분 | 기록 내용 |
 | ----- | ------------------ |
 | 문제 상황 | WSL 설치 후 Linux 배포판이 설치되지 않아 Ubuntu 터미널을 실행할 수 없었다. |
-| 원인 추정 | WSL 기능만 설치되고 사용할 Linux 배포판은 별도로 설치해야 하는 상태로 판단했다. |
-| 확인 방법 | PowerShell에서 `wsl --status`로 기본 버전이 2임을, `wsl --list --verbose`로 설치된 배포판이 없음을, `wsl --list --online`으로 설치 가능한 배포판 목록을 확인했다. |
-| 해결 방법 | `wsl --install -d Ubuntu`로 Ubuntu를 설치하고 사용자 계정을 생성했다. |
-| 최종 결과 | Ubuntu에서 `whoami`가 `ruav`, `pwd`가 `/home/ruav`로 출력되어 정상 설치를 확인했다. |
+| 원인 추정 | WSL 기능만 설치되고 사용할 Linux 배포판은 별도로 설치해야 하는 상태로 판단했습니다. |
+| 확인 방법 | PowerShell에서 `wsl --status`로 기본 버전이 2임을, `wsl --list --verbose`로 설치된 배포판이 없음을, `wsl --list --online`으로 설치 가능한 배포판 목록을 확인했습니다. |
+| 해결 방법 | `wsl --install -d Ubuntu`로 Ubuntu를 설치하고 사용자 계정을 생성했습니다. |
+| 최종 결과 | Ubuntu에서 `whoami`가 `ruav`, `pwd`가 `/home/ruav`로 출력되어 정상 설치를 확인했습니다. |
 
 ### 6-2. 이메일 보호 설정으로 푸시 거부 (GH007)
 
@@ -1227,9 +1218,9 @@ Windows 11
 | ----- | ------------------ |
 | 문제 상황 | 인증은 통과했지만 `git push`가 `remote: error: GH007: Your push would publish a private email address`로 거부되었다. |
 | 원인 추정 | 커밋 작성자 이메일(`user.email`)이 GitHub에서 비공개로 설정한 개인 이메일이라 이메일 보호 설정이 푸시를 막았다. |
-| 확인 방법 | `git log origin/main..HEAD --format='%h %an <%ae> %s'`로 올라갈 커밋의 작성자 이메일이 개인 이메일임을 확인했다. |
-| 해결 방법 | GitHub noreply 주소로 `git config --global user.email`을 변경하고, 푸시되지 않은 커밋은 `git commit --amend --reset-author --no-edit`로 작성자를 수정했다. |
-| 최종 결과 | `git log -1 --format='%h %an <%ae>'`에서 작성자가 noreply 주소로 바뀐 것을 확인했고 이후 푸시가 성공했다. 공개 저장소의 커밋에는 작성자 이메일이 남는다는 점을 확인했다. |
+| 확인 방법 | `git log origin/main..HEAD --format='%h %an <%ae> %s'`로 올라갈 커밋의 작성자 이메일이 개인 이메일임을 확인했습니다. |
+| 해결 방법 | GitHub noreply 주소로 `git config --global user.email`을 변경하고, 푸시되지 않은 커밋은 `git commit --amend --reset-author --no-edit`로 작성자를 수정했습니다. |
+| 최종 결과 | `git log -1 --format='%h %an <%ae>'`에서 작성자가 noreply 주소로 바뀐 것을 확인했고 이후 푸시가 성공했습니다. 공개 저장소의 커밋에는 작성자 이메일이 남는다는 점을 확인했습니다. |
 
 **실행 결과**
 
@@ -1241,9 +1232,9 @@ Windows 11
 | ----- | ------------------ |
 | 문제 상황 | PowerShell의 `ssh -T git@github.com`에서 `Permission denied (publickey)`가 발생했고, WSL에서 `git push`를 하면 `Internal Server Error`로 푸시가 거부되어 GitHub에 업로드되지 않았다. SSH 키는 GitHub에 등록되어 있었다. |
 | 원인 추정 | ① VSCode가 WSL 폴더를 Windows용 Git으로 열어 Ubuntu의 SSH 키를 사용하지 못함<br>② 복사한 키 파일의 권한 또는 형식 문제<br>③ GitHub 연결의 간헐적 불안정<br>④ VSCode에서 Ubuntu(WSL) 세션을 중복으로 열어 둔 영향 |
-| 확인 방법 | ① VSCode Git 로그에서 `C:\Program Files\Git\cmd\git.exe` 사용과 `\\wsl.localhost\...` 경로로 저장소를 연 것을 확인했다.<br>② `ls -la ~/.ssh`로 `id_ed25519` 권한이 `600`임을, `ssh -vT git@github.com`으로 해당 키가 GitHub에 정상 제시됨을 확인해 키 파일 문제는 배제했다.<br>③ 같은 키로 `ssh -T git@github.com`을 5회 반복하니 3회 실패(12~17초), 2회 성공(2~4초)이었다.<br>④ 중복 세션을 정리한 뒤 푸시가 성공했다. |
-| 해결 방법 | ① VSCode를 `code .`로 WSL 모드(`WSL: Ubuntu`)로 열어 Ubuntu의 Git과 SSH 키를 사용하도록 했다.<br>② `chmod 700 ~/.ssh`로 `.ssh` 폴더 권한을 정리하고, `~/.ssh/config`에 `IdentitiesOnly`와 443 포트를 지정했다.<br>③ 중복으로 열려 있던 VSCode의 Ubuntu 세션을 닫고 하나의 Ubuntu 터미널에서 `git push`를 실행했다. |
-| 최종 결과 | `git push`가 성공(`8069314..b7c2e06  main -> main`)했고 `git status`에서 `up to date with 'origin/main'`을 확인했다. 인증 실패의 정확한 원인은 확정하지 못했으며, 동일한 키에서 성공과 실패가 섞인 점과 세션 중복 정황으로 판단했다. |
+| 확인 방법 | ① VSCode Git 로그에서 `C:\Program Files\Git\cmd\git.exe` 사용과 `\\wsl.localhost\...` 경로로 저장소를 연 것을 확인했습니다.<br>② `ls -la ~/.ssh`로 `id_ed25519` 권한이 `600`임을, `ssh -vT git@github.com`으로 해당 키가 GitHub에 정상 제시됨을 확인해 키 파일 문제는 배제했습니다.<br>③ 같은 키로 `ssh -T git@github.com`을 5회 반복하니 3회 실패(12~17초), 2회 성공(2~4초)이었다.<br>④ 중복 세션을 정리한 뒤 푸시가 성공했습니다. |
+| 해결 방법 | ① (가설 ①) VSCode를 `code .`로 WSL 모드(`WSL: Ubuntu`)로 열어 Ubuntu의 Git과 SSH 키를 사용하도록 했습니다.<br>② (가설 ②) 확인 단계에서 원인이 아님을 배제했으나, 예방 차원에서 `chmod 700 ~/.ssh`로 `.ssh` 폴더 권한을 정리했습니다.<br>③ (가설 ③) 연결 불안정에 대비해 `~/.ssh/config`에 `IdentitiesOnly`와 443 포트를 지정했습니다.<br>④ (가설 ④) 중복으로 열려 있던 VSCode의 Ubuntu 세션을 닫고 하나의 Ubuntu 터미널에서 `git push`를 실행했습니다. |
+| 최종 결과 | `git push`가 성공(`8069314..b7c2e06  main -> main`)했고 `git status`에서 `up to date with 'origin/main'`을 확인했습니다. 인증 실패의 정확한 원인은 확정하지 못했으며, 동일한 키에서 성공과 실패가 섞인 점과 세션 중복 정황으로 판단했습니다. |
 
 **실행 결과**
 
@@ -1260,6 +1251,9 @@ Windows 11
 다른 환경에서도 동일한 프로젝트를 실행할 수 있도록 기본 절차를 정리합니다.
 
 **0단계. 로컬 개발 환경 설치(Docker, Git, VSCode 동시 설치 명령어)**
+
+> ※ 0단계의 `winget` 명령은 Windows 전용입니다. macOS는 `brew install orbstack git`(OrbStack이 Docker 엔진 제공), Linux는 `apt` 등 해당 OS의 패키지 관리자로 설치하세요.
+
 ```bash
 winget install --id Docker.DockerDesktop -e --accept-source-agreements --accept-package-agreements; winget install --id Git.Git -e --accept-source-agreements --accept-package-agreements; winget install --id Microsoft.VisualStudioCode -e --accept-source-agreements --accept-package-agreements
 ```
@@ -1307,7 +1301,7 @@ http://localhost:8080
 ### 7-2. 재현 시 주의사항
 
 - Docker가 정상적으로 실행 중이어야 합니다.
-- 프로젝트 최상위 디렉터리(Pre1-1)에서 Dockerfile을 이용해 이미지를 생성해야 합니다.
+- Dockerfile이 있는 디렉터리(Pre1-1)에서 Dockerfile을 이용해 이미지를 생성해야 합니다.
 - 호스트 포트가 이미 사용 중이라 매핑에 실패하면 다음 순서로 진단합니다.
   1. 오류 메시지 확인: `port is already allocated` 등 포트 충돌 메시지인지 확인
   2. Docker 컨테이너가 점유 중인지 확인: `docker ps`에서 `0.0.0.0:8080->80` 컨테이너 확인
@@ -1349,7 +1343,7 @@ git config --list
 
 ## 8. 보너스 과제 수행 내용
 
-### 📊 보너스 미션 과제 항목
+### 8-0. 보너스 과제 수행 현황
 
 | 과제 항목 | 수행 여부 | 결과 및 증거 자료 링크 |
 | :--- | :---: | :--- |
@@ -1383,8 +1377,8 @@ GitHub 원격 저장소와 통신할 때 사용하는 두 방식은 **인증 수
 
 **확인 내용**
 
-- SSH 키를 GitHub에 등록한 뒤 `ssh -T git@github.com`으로 인증 성공을 확인했다.
-- 원격 주소를 SSH(`git@github.com:…`)로 바꿔 `git push`가 성공했다. (4-7-3, 6-3 참고)
+- SSH 키를 GitHub에 등록한 뒤 `ssh -T git@github.com`으로 인증 성공을 확인했습니다.
+- 원격 주소를 SSH(`git@github.com:…`)로 바꿔 `git push`가 성공했습니다. (4-7-3, 6-3 참고)
 
 ---
 
@@ -1431,8 +1425,8 @@ docker compose down                     # 서비스 중지 및 컨테이너 삭�
 **확인 내용**
 
 - `bonus/01-basic` 경로에서 `docker compose up -d` 명령어 하나로 yml 파일에 정의된 포트 매핑(8090:80) 및 웹 서버 컨테이너가 정상 구동되었다.
-- `docker compose down` 실행 시 컨테이너가 안전하게 자동 종료 및 삭제 처리됨을 확인했다.
-- `.yml` 파일 작성 시 탭(Tab) 키 대신 공백(띄어쓰기) 2칸 단위를 사용해 올바른 들여쓰기 규칙이 적용되도록 주의하여 검증했다.
+- `docker compose down` 실행 시 컨테이너가 안전하게 자동 종료 및 삭제 처리됨을 확인했습니다.
+- `.yml` 파일 작성 시 탭(Tab) 키 대신 공백(띄어쓰기) 2칸 단위를 사용해 올바른 들여쓰기 규칙이 적용되도록 주의하여 검증했습니다.
 
 ---
 
@@ -1512,9 +1506,9 @@ ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav/Pre1-1/bonus/02-multi$ curl http://loca
 
 **확인 내용**
 
-- `docker compose ps`에서 `backend`는 호스트 포트 매핑 없이 `80/tcp`만 표시되어, `ports`를 지정하지 않은 컨테이너는 호스트에서 직접 접근할 수 없는 구조임을 확인했다.
-- 같은 Compose 파일로 묶인 컨테이너들은 IP 주소 없이 서비스 이름(`http://backend`)만으로 서로 통신할 수 있다. `web` 컨테이너 안에서 `wget -qO- http://backend`를 실행해 backend의 nginx 기본 페이지가 응답되는 것을 확인했다. (서비스 디스커버리)
-- 호스트 포트(8091)와 매핑된 `web` 컨테이너는 호스트에서 `curl http://localhost:8091`로 접속해 커스텀 페이지(`Hello, Docker!`)가 응답되는 것을 확인했다.
+- `docker compose ps`에서 `backend`는 호스트 포트 매핑 없이 `80/tcp`만 표시되어, `ports`를 지정하지 않은 컨테이너는 호스트에서 직접 접근할 수 없는 구조임을 확인했습니다.
+- 같은 Compose 파일로 묶인 컨테이너들은 IP 주소 없이 서비스 이름(`http://backend`)만으로 서로 통신할 수 있다. `web` 컨테이너 안에서 `wget -qO- http://backend`를 실행해 backend의 nginx 기본 페이지가 응답되는 것을 확인했습니다. (서비스 디스커버리)
+- 호스트 포트(8091)와 매핑된 `web` 컨테이너는 호스트에서 `curl http://localhost:8091`로 접속해 커스텀 페이지(`Hello, Docker!`)가 응답되는 것을 확인했습니다.
 
 ---
 
@@ -1528,7 +1522,7 @@ Docker Compose의 핵심 명령어(`up`, `ps`, `logs`, `down`)로 다중 컨테�
 
 **실행 명령어**
 
-> ※ 이전 멀티 컨테이너 실행 실습을 진행했던 디렉토리(`~/codyssey_AIO_ruav/Pre1-1/bonus/02-multi`)에서 이어서 실습을 진행함. 
+> ※ 이전 8-2-3.멀티 컨테이너 실습의 `up -d, wget, curl` 명령어 실행 이후 이어서 진행하여 아래 로그에 해당 접속 기록이 포함됨.
 
 ```bash
 docker compose up -d                  # 멀티 컨테이너 백그라운드 실행 (켜기)
@@ -1579,10 +1573,10 @@ NAME IMAGE COMMAND SERVICE CREATED STATUS PORTS
 
 **확인 내용**
 
-- `docker compose up -d` 명령어로 백그라운드에서 web과 backend 컨테이너가 동시에 구동됨을 확인했다.
-- `docker compose ps` 및 `logs --tail 10`를 통해 각 컨테이너의 구동 상태와 최근 남겨진 기록(로그)을 확인했다.
-- `docker compose down` 실행 시 생성되었던 컨테이너들과 내부 네트워크 가상 환경(02-multi_default)이 안전하게 중지 및 삭제되어 정리되는 과정을 확인했다.
-- 문제가 생겼을 때 `① ps (상태 확인) → ② logs (기록 확인) → ③ curl/wget (접속 확인)` 순서로 추적하는 `'상태 확인 루틴'`의 올바른 확인 습관을 습득했다.
+- `docker compose up -d` 명령어로 백그라운드에서 web과 backend 컨테이너가 동시에 구동됨을 확인했습니다.
+- `docker compose ps` 및 `logs --tail 10`를 통해 각 컨테이너의 구동 상태와 최근 남겨진 기록(로그)을 확인했습니다.
+- `docker compose down` 실행 시 생성되었던 컨테이너들과 내부 네트워크 가상 환경(02-multi_default)이 안전하게 중지 및 삭제되어 정리되는 과정을 확인했습니다.
+- 문제가 생겼을 때 `① ps (상태 확인) → ② logs (기록 확인) → ③ curl/wget (접속 확인)` 순서로 추적하는 `'상태 확인 루틴'`의 올바른 확인 습관을 습득했습니다.
 
 ---
 
@@ -1596,7 +1590,7 @@ Docker 컨테이너 실행 시 환경변수를 전달하고 애플리케이션�
 
 `docker-compose.yml` 파일에 외부 옵션 값을 받을 수 있는 칸을 만들고, 파일 내용을 직접 고치지 않고도 명령어 앞에 붙이는 값에 따라 포트 번호와 실행 모드가 실시간으로 바뀌는 '설정과 코드의 분리' 방법을 익힘.
 
-<!-- 환경변수 활용 개념 이해 증거 이미지 삽입 예정 -->
+![Compose 환경변수 설정 실습](docs/evidence/12_compose_env_guide.png)
 
 **실행 명령어**
 
@@ -1676,9 +1670,9 @@ ruav@DESKTOP-JCSRKLA:~/codyssey_AIO_ruav/Pre1-1/bonus/03-env$ docker compose dow
 
 **확인 내용**
 
-- `${변수명:-기본값}` 문법 구조를 활용하여 외부에서 값이 들어오지 않을 경우 야기되는 예외 상황에 유연한 디폴트 옵션(8092, dev)이 올바르게 지정됨을 확인했다.
-- `docker-compose.yml` 원본 파일에 직접적인 코드 수정 행위를 가하지 않고, 명령어 앞단에 환경변수 주입 선언문(`WEB_PORT=8093 APP_ENV=prod`)을 덧붙이는 것만으로 포트와 구동 모드가 동적으로 일괄 변환되는 것을 검증했다.
-- 소스코드로 명명되는 파일 영역과 유동적인 인프라 환경 매개변수를 바깥으로 완벽히 분리 처리함으로써, 단일 컴포즈 명세서를 기반으로 개발용(dev)과 운영용(prod) 서버 환경을 독립적이고 유연하게 확장 전개할 수 있음을 확인했다.
+- `${변수명:-기본값}` 문법으로, 값을 주입하지 않으면 기본값(포트 `8092`, `APP_ENV=dev`)이 적용되는 것을 확인했습니다.
+- `docker-compose.yml`을 수정하지 않고 `WEB_PORT=8093 APP_ENV=prod`를 명령어 앞에 붙이는 것만으로 포트와 실행 모드가 바뀌는 것을 확인했습니다.
+- 설정값을 파일 밖에서 주입하므로, 하나의 Compose 파일로 개발(dev)과 운영(prod) 환경을 나누어 실행할 수 있습니다.
 
 [맨 위로 이동](#top)
 
